@@ -1,0 +1,729 @@
+{
+  "title": "Public Speaking: Find Your Voice",
+  "description": "A video-led, practice-based course from your first introduction to a purposeful public talk.",
+  "checked": "2026-11-13",
+  "attribution": "Original Soma na Mbiti teaching, examples, exercises and questions. Linked videos and books remain their publishers’ materials. No partnership or endorsement is implied.",
+  "videoNotice": "Videos are optional external publisher resources, not course-owned productions. No autoplay. Publishers control captions, ads, related videos and embedding availability. Repeated videos have a different observation task; the long Stanford workshop can be studied in stages. Original written teaching provides a non-video route.",
+  "modules": [
+    {
+      "id": 0,
+      "title": "Start with your audience",
+      "goal": "Deliver a clear 60-second introduction for a real audience.",
+      "objectives": [
+        "Name an audience and its needs.",
+        "Separate preparation from the demand to feel fearless.",
+        "Practise a short message and request specific feedback."
+      ],
+      "reading": [
+        "Public speaking begins with a relationship: you have something to explain, and listeners have a reason to care. Before writing, describe the people, place and purpose. A youth-group welcome needs different background from a job interview or a chama proposal. Write one sentence beginning, “After this talk, my listeners should understand…” Choose something small enough to explain clearly. A topic such as education is broad; explaining how to prepare for one interview gives the audience a concrete destination. Avoid assuming that everyone shares your vocabulary, experiences or priorities.",
+        "Treat the first practice as a baseline, rather than a verdict on your ability. Speak for one minute about a familiar everyday process. You may stand, sit or use an assistive communication method. Record only if comfortable; a trusted listener or written rehearsal notes can also help. Afterward, identify one place where the meaning was clear and one place where it became difficult to follow. Do not make accent, disability, eye contact or a polished appearance a condition of being a capable communicator. Work on understandable meaning and respectful connection.",
+        "Prepare a small routine you can repeat: check the room or connection, arrange your notes, settle into a comfortable position and rehearse the first sentence. If you lose your place, pause, look at a keyword and continue from the main point. Begin with low-pressure speaking opportunities and increase the challenge gradually. Feeling nervous does not automatically mean that the message is failing. Ask a listener what they understood, instead of relying only on how nervous you felt. Repeat the same introduction after one focused change and compare the two attempts."
+      ],
+      "workedExample": "A learner introducing a library club to new members replaces “We promote literary engagement” with “We meet every Saturday to read one short story and discuss it together.” The second version gives a new member something concrete to understand.",
+      "exercise": "Give a 60-second introduction to a club, workplace or community group. Name the audience, explain your one message, and ask a listener to repeat it. Revise one sentence and deliver it again.",
+      "reflection": "What did the listener actually remember? What single change made your second version clearer?",
+      "video": {
+        "id": "HAnw168huqA",
+        "title": "Think Fast, Talk Smart: Communication Techniques",
+        "publisher": "Stanford Graduate School of Business — Matt Abrahams",
+        "url": "https://www.youtube.com/watch?v=HAnw168huqA",
+        "start": 0,
+        "end": 600,
+        "assignment": "Study 00:00–10:00 (10:00 viewing). Notice how the presenter involves the room and establishes a conversational purpose. Pause for the questions; additional rehearsal time is separate."
+      },
+      "watchPrompts": [
+        "Notice how the presenter involves the room.",
+        "Identify one moment that feels conversational.",
+        "Choose one approach to try in your own introduction."
+      ],
+      "questions": [
+        {
+          "question": "An audience’s existing knowledge should influence the explanation.",
+          "correct": true,
+          "explanation": "Background knowledge determines which words and examples need explaining."
+        },
+        {
+          "question": "Every audience needs exactly the same introduction.",
+          "correct": false,
+          "explanation": "Purpose and audience change what an introduction should establish."
+        },
+        {
+          "question": "A one-minute baseline can help identify a specific improvement.",
+          "correct": true,
+          "explanation": "A short baseline makes comparison manageable."
+        },
+        {
+          "question": "A speaker must eliminate all nervousness before practising.",
+          "correct": false,
+          "explanation": "Practice can begin while nervous; understanding is the useful focus."
+        },
+        {
+          "question": "Asking a listener to repeat the main point tests clarity.",
+          "correct": true,
+          "explanation": "The listener’s response shows what was understood."
+        },
+        {
+          "question": "A strong accent automatically makes a person a poor speaker.",
+          "correct": false,
+          "explanation": "An accent is not a measure of the quality of an idea or its explanation."
+        },
+        {
+          "question": "A keyword note can help a speaker resume after a pause.",
+          "correct": true,
+          "explanation": "A brief cue can restore the next point without restarting everything."
+        },
+        {
+          "question": "Watching a video alone proves that speaking skills have improved.",
+          "correct": false,
+          "explanation": "Improvement needs practice and evidence of a change in performance."
+        },
+        {
+          "question": "A clear purpose helps a speaker decide what to leave out.",
+          "correct": true,
+          "explanation": "The purpose provides a reason to include or remove material."
+        },
+        {
+          "question": "Feedback should focus only on the speaker’s appearance.",
+          "correct": false,
+          "explanation": "Feedback should address meaning, structure and understandable delivery."
+        }
+      ],
+      "references": [
+        {
+          "title": "Exploring Public Speaking 4.2 — 2.1 – The Importance of Audience Analysis",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/a850f9a2-b5f9-4763-a193-0495defdd322#the-importance-of-audience-analysis",
+          "assignment": "Read section 2.1 in full. Identify one audience need that changes your introduction. Allow 8–12 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "Exploring Public Speaking 4.2 — 1.2 – Anxiety and Public Speaking",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/0a39e997-ce2c-4bb5-8e56-701ef46714aa#anxiety-and-public-speaking",
+          "assignment": "Read section 1.2, including Addressing Public Speaking Anxiety. Choose one preparation habit. Allow 10–15 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "Stanford: spontaneous communication masterclass",
+          "url": "https://www.gsb.stanford.edu/insights/how-think-faster-talk-smarter-masterclass-matt-abrahams",
+          "assignment": "Optional companion: read the main article on this linked page. For an accompanying video or transcript, study only the time range assigned above; no additional full video is required."
+        }
+      ],
+      "practiceRubric": [
+        "A listener can repeat my main point.",
+        "My examples are relevant and clearly labelled.",
+        "My speech has an opening, connected middle and purposeful ending.",
+        "My voice and delivery make the message understandable.",
+        "I can name one improvement and demonstrate it in a second attempt."
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Build a message people can follow",
+      "goal": "Turn an idea into a two-minute talk with a purposeful beginning, middle and ending.",
+      "objectives": [
+        "Write a one-sentence takeaway.",
+        "Organise points and transitions.",
+        "Match the ending to the purpose."
+      ],
+      "reading": [
+        "An outline is a route for a listener who cannot rewind your live speech. Start with one takeaway, then select two or three supporting points. Give each point a job: explain a cause, show an example, answer a likely concern or identify a next step. If a detail does not help the audience reach the takeaway, move it to a question-and-answer note. Do not begin by collecting impressive quotations or slides and hoping that a message will emerge afterward. Decide the message first, and let the supporting material serve it.",
+        "The opening should establish relevance and direction. You might describe a specific problem, ask a useful question or offer a short, honestly labelled illustration. An opening does not need a joke, dramatic confession or invented statistic. Tell listeners enough to understand why the topic matters and where the talk is going. In the middle, use brief verbal signposts such as “Here is the problem,” “Now consider the alternative” and “This is the first step.” These words are navigation aids; they do not substitute for a logical connection between ideas.",
+        "The ending should complete the promise of the opening. For an informative talk, return to the takeaway and explain what listeners can now understand. For a proposal, state a feasible next action and who would take it. Rehearse aloud with a timer. If the talk is too long, remove or simplify material rather than rushing every sentence. Practise the transitions separately because they show whether the outline actually connects. Then explain the outline to someone without reading a script. If the route remains confusing, reorganise it before polishing individual phrases."
+      ],
+      "workedExample": "For a two-minute proposal about keeping a shared study room quiet, a learner uses: the problem students face, a simple booking rule, and a one-week trial. The ending asks for agreement to test the rule, rather than ending with unrelated advice.",
+      "exercise": "Create a two-minute outline: opening, takeaway, three points, transitions and final sentence. Deliver it from keywords; cut one unnecessary detail and repeat.",
+      "reflection": "Which point supported the takeaway most clearly? Where did your listener lose the connection?",
+      "video": {
+        "id": "-FOCpMAww28",
+        "title": "TED’s secret to great public speaking",
+        "publisher": "TED — Chris Anderson",
+        "url": "https://www.youtube.com/watch?v=-FOCpMAww28",
+        "start": 0,
+        "end": 477,
+        "assignment": "Study 00:00–07:57 (07:57 viewing). Identify the main idea, the supporting explanation and the ending. Pause for the questions; additional rehearsal time is separate."
+      },
+      "watchPrompts": [
+        "Identify the central idea the speaker wants listeners to carry away.",
+        "Notice how the talk establishes relevance.",
+        "Describe the ending’s relationship to the opening."
+      ],
+      "questions": [
+        {
+          "question": "An outline should give supporting points a clear purpose.",
+          "correct": true,
+          "explanation": "A clear role for each point keeps the talk directed."
+        },
+        {
+          "question": "More points always make a short talk clearer.",
+          "correct": false,
+          "explanation": "Too many points can prevent adequate explanation."
+        },
+        {
+          "question": "Transitions can help listeners follow a change of idea.",
+          "correct": true,
+          "explanation": "Signposts identify the relationship or movement between points."
+        },
+        {
+          "question": "A speaker should invent a surprising statistic to gain attention.",
+          "correct": false,
+          "explanation": "Attention does not justify inaccurate evidence."
+        },
+        {
+          "question": "A conclusion should connect to the talk’s purpose.",
+          "correct": true,
+          "explanation": "The ending should complete what the talk set out to do."
+        },
+        {
+          "question": "A call to action is appropriate for every possible speaking purpose.",
+          "correct": false,
+          "explanation": "An informative explanation may end with understanding rather than a requested action."
+        },
+        {
+          "question": "If a rehearsal is too long, removing material can be better than rushing.",
+          "correct": true,
+          "explanation": "Editing preserves intelligibility within the available time."
+        },
+        {
+          "question": "A slide deck can replace deciding what the message means.",
+          "correct": false,
+          "explanation": "Slides support an already considered message."
+        },
+        {
+          "question": "A clear takeaway helps decide which details are relevant.",
+          "correct": true,
+          "explanation": "Details should help establish the intended understanding."
+        },
+        {
+          "question": "An audience can always rewind a live speech when the structure is unclear.",
+          "correct": false,
+          "explanation": "A live audience usually needs the structure to be understandable as delivered."
+        }
+      ],
+      "references": [
+        {
+          "title": "Exploring Public Speaking 4.2 — 6.1 – Why We Need Organization in Speeches",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/ab34dd5a-a8ab-4288-8bd1-3e18aee09183#why-we-need-organization-in-speeches",
+          "assignment": "Read sections 6.1, 6.3 and 6.4; compare preparation and speaking outlines. Allow 20–25 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "Exploring Public Speaking 4.2 — 8.1 – General Guidelines for Introductions and Conclusions",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/fc5bbbb9-77fe-4a84-a99f-5fffcdf97654#general-guidelines-for-introductions-and-conclusions",
+          "assignment": "Read sections 8.1, 8.2 and 8.4. Draft an opening and ending that serve the same purpose. Allow 15–20 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "TED: Chris Anderson’s public speaking talk",
+          "url": "https://www.ted.com/talks/chris_anderson_ted_s_secret_to_great_public_speaking",
+          "assignment": "Optional companion: read the main article on this linked page. For an accompanying video or transcript, study only the time range assigned above; no additional full video is required."
+        },
+        {
+          "title": "Toastmasters: preparing a speech",
+          "url": "https://www.toastmasters.org/resources/public-speaking-tips/preparing-a-speech",
+          "assignment": "Optional companion: read the main article on this linked page. For an accompanying video or transcript, study only the time range assigned above; no additional full video is required."
+        }
+      ],
+      "practiceRubric": [
+        "A listener can repeat my main point.",
+        "My examples are relevant and clearly labelled.",
+        "My speech has an opening, connected middle and purposeful ending.",
+        "My voice and delivery make the message understandable.",
+        "I can name one improvement and demonstrate it in a second attempt."
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Tell stories without losing the truth",
+      "goal": "Use a specific story alongside appropriate evidence and respectful context.",
+      "objectives": [
+        "Separate personal experience from a general claim.",
+        "Choose concrete details.",
+        "Credit and qualify supporting evidence."
+      ],
+      "reading": [
+        "A story gives listeners a situation they can picture. Identify a person or perspective, a setting, a difficulty, a decision and what changed. Include details that help the audience understand the decision. A fictional example can be useful, but label it as fictional. A personal memory may illustrate your experience without proving that everyone else has the same experience. When a story concerns another person, consider their permission and privacy. You can discuss a general situation or create a labelled composite instead of revealing someone’s private circumstances.",
+        "Put the story next to the claim it is meant to illuminate. Then ask: what else would a listener need to know? A single successful project does not establish that a method always works. If you use numbers, identify their source, date, group and relevant limits. Tell listeners whether a figure is an actual result, a rough estimate or an invented number used for teaching. Cite the original report when possible. Do not use a familiar institution’s name to suggest that it endorses your proposal when it has not done so.",
+        "A responsible speaker makes room for complexity. Avoid presenting one person as the representative of an entire country, profession or community. Name what your example shows and what it cannot show. Listen for the perspectives absent from your first draft. During rehearsal, ask a listener which claim they thought the story proved. Their answer may reveal an unintended exaggeration. Revise the wording so that emotion and evidence work together. A story can invite attention; the listener should still be able to inspect the reasons for accepting the broader argument."
+      ],
+      "workedExample": "A speaker says, “In our fictional youth club, a reminder helped one meeting start on time. This example explains the idea; we would still need records from more meetings to assess whether it reliably helps.” The illustration stays distinct from evidence.",
+      "exercise": "Tell a 90-second story about a learning moment. Label any invented elements, state one lesson, and explain one limit of generalising from it. Add a source note for any external factual claim.",
+      "reflection": "What did the story help explain? Which conclusion would go beyond the evidence?",
+      "video": {
+        "id": "D9Ihs241zeg",
+        "title": "The danger of a single story",
+        "publisher": "TED — Chimamanda Ngozi Adichie",
+        "url": "https://www.youtube.com/watch?v=D9Ihs241zeg",
+        "start": 0,
+        "end": 1156,
+        "assignment": "Study 00:00–19:16 (19:16 viewing). Follow the personal examples and explain why one story can leave out other perspectives. Pause for the questions; additional rehearsal time is separate."
+      },
+      "watchPrompts": [
+        "Notice how personal examples build a larger argument.",
+        "Identify a perspective that a single account could omit.",
+        "Consider how you can tell a specific story without making a whole group seem identical."
+      ],
+      "questions": [
+        {
+          "question": "An invented teaching example should be labelled.",
+          "correct": true,
+          "explanation": "Labelling prevents an illustration from being mistaken for a real event."
+        },
+        {
+          "question": "One personal experience proves a rule for every community.",
+          "correct": false,
+          "explanation": "An individual experience does not establish a universal result."
+        },
+        {
+          "question": "Specific relevant details can help listeners picture a situation.",
+          "correct": true,
+          "explanation": "Useful detail gives the story a concrete setting and decision."
+        },
+        {
+          "question": "A dramatic story makes source checking unnecessary.",
+          "correct": false,
+          "explanation": "Emotional impact does not establish a factual claim."
+        },
+        {
+          "question": "A statistic’s date and population can affect its meaning.",
+          "correct": true,
+          "explanation": "A number must be understood in the context in which it was measured."
+        },
+        {
+          "question": "Mentioning a university automatically means it endorses your talk.",
+          "correct": false,
+          "explanation": "Attribution and endorsement are different things."
+        },
+        {
+          "question": "Another person’s private experience deserves care and consent.",
+          "correct": true,
+          "explanation": "A useful story does not remove the person’s privacy interests."
+        },
+        {
+          "question": "A composite example should be presented as a documented individual.",
+          "correct": false,
+          "explanation": "A composite must not be misrepresented as an actual recorded case."
+        },
+        {
+          "question": "A speaker can acknowledge what an example cannot establish.",
+          "correct": true,
+          "explanation": "Stating limits helps the audience assess the argument accurately."
+        },
+        {
+          "question": "A community should be described only through one familiar stereotype.",
+          "correct": false,
+          "explanation": "A stereotype excludes differing experiences and perspectives."
+        }
+      ],
+      "references": [
+        {
+          "title": "Exploring Public Speaking 4.2 — 7.1 – Why Supporting Materials are Needed",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/352b3e87-14d5-487e-a143-352767c60d56#why-supporting-materials-are-needed",
+          "assignment": "Read sections 7.1–7.2, focusing on Examples, Narratives and Statistics. Allow 15–20 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "Exploring Public Speaking 4.2 — 3.2 – Credibility and Ethics",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/cafc9ffe-baab-4cfe-b8d3-9d6025439bbb#credibility-and-ethics",
+          "assignment": "Read sections 3.2–3.3, including Ethically Crediting Sources. Identify one attribution rule for your speech. Allow 15–20 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "TED: The danger of a single story",
+          "url": "https://www.ted.com/talks/chimamanda_ngozi_adichie_the_danger_of_a_single_story",
+          "assignment": "Optional companion: read the main article on this linked page. For an accompanying video or transcript, study only the time range assigned above; no additional full video is required."
+        }
+      ],
+      "practiceRubric": [
+        "A listener can repeat my main point.",
+        "My examples are relevant and clearly labelled.",
+        "My speech has an opening, connected middle and purposeful ending.",
+        "My voice and delivery make the message understandable.",
+        "I can name one improvement and demonstrate it in a second attempt."
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Make your delivery easy to understand",
+      "goal": "Use pauses, emphasis and comfortable physical presence to clarify a message.",
+      "objectives": [
+        "Experiment with pace and emphasis.",
+        "Make meaning audible and accessible.",
+        "Select gestures or visual supports purposefully."
+      ],
+      "reading": [
+        "Delivery is how listeners encounter your message. Speak at a pace that leaves room to process unfamiliar ideas. Pause after a significant statement or before a change of topic. Emphasise a few meaningful words rather than giving every word the same force. You do not need to imitate a broadcaster or replace your natural accent. Test understandable speech with actual listeners in the room or on the call. If someone cannot hear, a microphone, better placement or less background noise may help more than simply trying to speak harder.",
+        "Use comfortable gestures and posture that fit your body, setting and communication method. A gesture can mark a contrast or point to a relevant part of a visual. It need not be constant. Looking toward different parts of a room can help involve listeners, but fixed eye-contact rules do not work for everyone. A person may listen attentively without looking directly at you. Keep the message accessible through clear verbal explanation, readable visuals and available captions. Describe the meaning of an image or chart instead of assuming everyone can see it equally well.",
+        "Practise one delivery variable at a time. Read the same short explanation first without planned pauses, then with pauses between ideas. Ask a listener to compare what they understood. On video calls, check that your sound is audible, your essential visual is readable and your notes do not obstruct the explanation. A recording is a review tool, not an automatic judge. Watch or listen for one specific feature and make one revision. Rest your voice if it feels strained; this classroom does not require prolonged shouting, uncomfortable breathing routines or painful vocal exercises."
+      ],
+      "workedExample": "A learner explains a change in meeting time. In the revision, they pause before “We will start at nine,” emphasise the new time, and display it in large text. The added clarity matters more than theatrical gestures.",
+      "exercise": "Deliver the same 45-second announcement twice. Change only pauses and emphasis. Ask which version made the key information easier to identify. Try a readable visual or spoken description as an alternative support.",
+      "reflection": "Which delivery change improved understanding, and what evidence did your listener give?",
+      "video": {
+        "id": "eIho2S0ZahI",
+        "title": "How to speak so that people want to listen",
+        "publisher": "TED — Julian Treasure",
+        "url": "https://www.youtube.com/watch?v=eIho2S0ZahI",
+        "start": 0,
+        "end": 598,
+        "assignment": "Study 00:00–09:58 (09:58 viewing). Listen for the voice demonstrations; compare pace, emphasis and pauses. Pause for the questions; additional rehearsal time is separate."
+      },
+      "watchPrompts": [
+        "Notice a change in pace or emphasis.",
+        "Find a pause that helps a point land.",
+        "Choose one comfortable delivery experiment; do not copy every mannerism."
+      ],
+      "questions": [
+        {
+          "question": "A pause can help mark a change between ideas.",
+          "correct": true,
+          "explanation": "A pause gives listeners processing time and a boundary."
+        },
+        {
+          "question": "A speaker must replace their natural accent to communicate well.",
+          "correct": false,
+          "explanation": "The aim is understandable meaning rather than accent replacement."
+        },
+        {
+          "question": "Checking sound in the actual setting can reveal practical problems.",
+          "correct": true,
+          "explanation": "Room and equipment conditions affect audibility."
+        },
+        {
+          "question": "Constant gestures are necessary throughout every talk.",
+          "correct": false,
+          "explanation": "Gestures should serve the explanation and remain comfortable."
+        },
+        {
+          "question": "A chart’s meaning should also be explained verbally.",
+          "correct": true,
+          "explanation": "Verbal explanation makes the intended information more accessible."
+        },
+        {
+          "question": "Every attentive listener must maintain direct eye contact.",
+          "correct": false,
+          "explanation": "Listening behaviours differ; direct eye contact is not a universal requirement."
+        },
+        {
+          "question": "Changing one delivery variable can make comparison easier.",
+          "correct": true,
+          "explanation": "A focused experiment helps identify the effect of that change."
+        },
+        {
+          "question": "Painful voice exercises are a required part of this course.",
+          "correct": false,
+          "explanation": "Speaking practice should not require pain or vocal strain."
+        },
+        {
+          "question": "Captions can support access to a video explanation.",
+          "correct": true,
+          "explanation": "Captions provide another way to receive spoken information."
+        },
+        {
+          "question": "A recording alone can fairly judge all aspects of speaking ability.",
+          "correct": false,
+          "explanation": "A recording is one source of feedback, with limits on what it shows."
+        }
+      ],
+      "references": [
+        {
+          "title": "Exploring Public Speaking 4.2 — 11.4 – Practicing Your Delivery",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/aec186cc-bfbf-46d6-9fa9-94e72afa12c0#practicing-your-delivery",
+          "assignment": "Read sections 11.4–11.5, especially Volume, Pitch, Rate and Pauses. Adapt physical-delivery advice to your access needs. Allow 15–20 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "TED: Julian Treasure’s speaking talk",
+          "url": "https://www.ted.com/talks/julian_treasure_how_to_speak_so_that_people_want_to_listen",
+          "assignment": "Optional companion: read the main article on this linked page. For an accompanying video or transcript, study only the time range assigned above; no additional full video is required."
+        }
+      ],
+      "practiceRubric": [
+        "A listener can repeat my main point.",
+        "My examples are relevant and clearly labelled.",
+        "My speech has an opening, connected middle and purposeful ending.",
+        "My voice and delivery make the message understandable.",
+        "I can name one improvement and demonstrate it in a second attempt."
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Think on your feet and handle questions",
+      "goal": "Give a relevant short response while staying honest about what you know.",
+      "objectives": [
+        "Clarify a question before responding.",
+        "Organise an impromptu answer.",
+        "Handle uncertainty and disagreement respectfully."
+      ],
+      "reading": [
+        "An unexpected question is first a listening task. Let the person finish. If the question has several parts, identify the part you will address first. If its meaning is unclear, ask for clarification or paraphrase it briefly and check your understanding. You do not need to begin speaking the instant the question ends. A short pause can help you choose a relevant point. Respond to the question that was actually asked rather than delivering a memorised answer to a different question. Keep the audience’s available time in mind.",
+        "For practice, use a simple response frame: give your point, explain the reason, illustrate it, and return to the point. Another option is to describe the situation, why it matters and a next step. These are classroom planning tools, not compulsory scripts for every conversation. Try both with ordinary topics such as welcoming new club members or improving a meeting agenda. The frame is working when it makes your thinking easier to follow. If it makes the answer stiff or irrelevant, simplify it and listen again to the question.",
+        "Honesty matters when the answer is uncertain. State what you know, what you do not know, and how you could check. Do not invent a statistic to avoid looking unprepared or promise a follow-up you cannot deliver. When someone disagrees, identify the concern without insulting the person. Acknowledge a useful point, explain your reasoning and clarify any remaining difference. You can set a respectful boundary on abusive or irrelevant questions. After rehearsal, review which question exposed a gap in preparation and add an accurate note to your future question bank."
+      ],
+      "workedExample": "Asked whether a proposed club event can be held for KES 5,000, a learner replies: “I cannot confirm the total yet. We have one venue quote, but transport is still unpriced. I would collect those figures before asking the group to approve a budget.”",
+      "exercise": "Write five ordinary audience questions on paper. Draw one at random, pause, and answer for 60 seconds. Have a partner ask one follow-up. Repeat with a new question and a different response frame.",
+      "reflection": "Did you answer the actual question? Where did you clearly distinguish a fact from something still to check?",
+      "video": {
+        "id": "HAnw168huqA",
+        "title": "Think Fast, Talk Smart: Communication Techniques",
+        "publisher": "Stanford Graduate School of Business — Matt Abrahams",
+        "url": "https://www.youtube.com/watch?v=HAnw168huqA",
+        "start": 0,
+        "end": 600,
+        "assignment": "Study 00:00–10:00 (10:00 viewing). Revisit the opening interaction. Notice listening, audience responses and how a speaker creates time to think. Pause for the questions; additional rehearsal time is separate."
+      },
+      "watchPrompts": [
+        "Observe how the presenter responds to participation.",
+        "Notice a technique you can test for organising an unscripted answer.",
+        "Compare a conversational response with reading a prepared script."
+      ],
+      "questions": [
+        {
+          "question": "A clarifying question can prevent answering the wrong issue.",
+          "correct": true,
+          "explanation": "Clarification establishes what the listener needs."
+        },
+        {
+          "question": "An impromptu response must begin without any pause.",
+          "correct": false,
+          "explanation": "A brief pause can support a more relevant answer."
+        },
+        {
+          "question": "A response frame can help organise an unfamiliar question.",
+          "correct": true,
+          "explanation": "A frame provides a manageable route for the explanation."
+        },
+        {
+          "question": "A confident speaker should invent missing figures.",
+          "correct": false,
+          "explanation": "Confidence does not justify supplying false information."
+        },
+        {
+          "question": "It is acceptable to state that a figure needs checking.",
+          "correct": true,
+          "explanation": "Naming uncertainty is more reliable than pretending to know."
+        },
+        {
+          "question": "A listener’s disagreement automatically makes the question abusive.",
+          "correct": false,
+          "explanation": "Respectful disagreement and abuse are not the same."
+        },
+        {
+          "question": "A short response should still answer the question asked.",
+          "correct": true,
+          "explanation": "Relevance remains essential even under time pressure."
+        },
+        {
+          "question": "Every follow-up promise should be made even if it cannot be fulfilled.",
+          "correct": false,
+          "explanation": "Commitments should be realistic and specific."
+        },
+        {
+          "question": "A practice question bank can reveal gaps in preparation.",
+          "correct": true,
+          "explanation": "Rehearsed questions show where further checking is needed."
+        },
+        {
+          "question": "Listening stops being important once the speaker is experienced.",
+          "correct": false,
+          "explanation": "Experience does not remove the need to understand the question."
+        }
+      ],
+      "references": [
+        {
+          "title": "Exploring Public Speaking 4.2 — 2.5 – Listening in Public Speaking Settings",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/a850f9a2-b5f9-4763-a193-0495defdd322#listening-in-public-speaking-settings",
+          "assignment": "Read section 2.5 in full, including Barriers to Listening and What Can Be Done to Improve Listening. Allow 12–15 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "Exploring Public Speaking 4.2 — 11.2 – Methods of Speech Delivery",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/aec186cc-bfbf-46d6-9fa9-94e72afa12c0#methods-of-speech-delivery",
+          "assignment": "Read section 11.2, focusing on Impromptu and Extemporaneous Speaking. Allow 10–15 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "Stanford: Think Faster, Talk Smarter masterclass",
+          "url": "https://www.gsb.stanford.edu/insights/how-think-faster-talk-smarter-masterclass-matt-abrahams",
+          "assignment": "Optional companion: read the main article on this linked page. For an accompanying video or transcript, study only the time range assigned above; no additional full video is required."
+        }
+      ],
+      "practiceRubric": [
+        "A listener can repeat my main point.",
+        "My examples are relevant and clearly labelled.",
+        "My speech has an opening, connected middle and purposeful ending.",
+        "My voice and delivery make the message understandable.",
+        "I can name one improvement and demonstrate it in a second attempt."
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Deliver, review and improve",
+      "goal": "Prepare a three-to-five-minute capstone talk and demonstrate a specific revision.",
+      "objectives": [
+        "Combine audience, structure, evidence and delivery.",
+        "Use a transparent self/peer review rubric.",
+        "Plan continued practice."
+      ],
+      "reading": [
+        "Choose a real communication task for your capstone: explain a useful process, introduce a community project, present a proposal or describe something you have learned. Define the audience and write the one-sentence takeaway before drafting. Plan a three-to-five-minute talk with a relevant opening, connected supporting points and a purposeful ending. Include at least one honestly labelled example. For factual claims drawn from elsewhere, keep a source note and give enough attribution for a listener to locate the original material. The assessment is about clear, responsible communication, not theatrical perfection.",
+        "Rehearse in conditions that resemble the intended setting. Check the microphone or connection and prepare a backup that works without slides. Ask a trusted listener to use the classroom rubric. They should describe something observable, such as the main point they remembered or the place where a transition became confusing. “Be more confident” is difficult to act on; “state your takeaway before the three examples” gives a concrete revision. A self-review is also useful when a partner is unavailable. Distinguish a self-reported practice record from an independently assessed performance.",
+        "Deliver a second version after one or two focused changes. Compare it with the first using the same criteria. Record what improved, what remains difficult and the next opportunity to speak. Revisit the skill after a day, then after a week, by delivering a shorter version without rereading the entire script. Explain one course idea to someone else and apply it in a new setting. Quiz scores show understanding of concepts; they do not by themselves establish the quality of a live speech. Continued practice, useful feedback and honest revision are part of the learning process."
+      ],
+      "workedExample": "A capstone proposes a Saturday reading circle. The first rehearsal explains activities but never asks listeners to act. The second ends by asking for three volunteers for a one-week trial. A peer can now name both the proposal and the next step.",
+      "exercise": "Deliver a three-to-five-minute capstone, receive or write rubric feedback, then deliver a revised version. Keep your outline, source notes, first review, revision plan and second review together. Practise a 60-second recap tomorrow and next week.",
+      "reflection": "What observable difference separates your two attempts? Which future speaking situation will test whether the skill transfers?",
+      "video": {
+        "id": "-FOCpMAww28",
+        "title": "TED’s secret to great public speaking",
+        "publisher": "TED — Chris Anderson",
+        "url": "https://www.youtube.com/watch?v=-FOCpMAww28",
+        "start": 0,
+        "end": 477,
+        "assignment": "Study 00:00–07:57 (07:57 viewing). Rewatch with your capstone outline beside you. Check whether every point supports one idea. Pause for the questions; additional rehearsal time is separate."
+      },
+      "watchPrompts": [
+        "Revisit the video with the whole course in mind.",
+        "Identify one principle that your own draft demonstrates.",
+        "Identify one gap to address before recording the final practice."
+      ],
+      "questions": [
+        {
+          "question": "A capstone should begin with an audience and a clear purpose.",
+          "correct": true,
+          "explanation": "Audience and purpose guide the whole message."
+        },
+        {
+          "question": "A quiz score alone proves the quality of a live performance.",
+          "correct": false,
+          "explanation": "Concept knowledge and demonstrated speaking performance are different forms of evidence."
+        },
+        {
+          "question": "Specific observable feedback is easier to use than a vague judgement.",
+          "correct": true,
+          "explanation": "An observable issue suggests an actionable change."
+        },
+        {
+          "question": "A first rehearsal should never be revised.",
+          "correct": false,
+          "explanation": "Rehearsal is an opportunity to learn and improve."
+        },
+        {
+          "question": "A source note helps listeners locate an external factual claim.",
+          "correct": true,
+          "explanation": "Traceable attribution makes the claim examinable."
+        },
+        {
+          "question": "A self-review must be described as independent teacher assessment.",
+          "correct": false,
+          "explanation": "Self-report and independent assessment should remain distinct."
+        },
+        {
+          "question": "A backup without slides can help when equipment fails.",
+          "correct": true,
+          "explanation": "A backup protects the central explanation from a technical problem."
+        },
+        {
+          "question": "The same review criteria can help compare two attempts.",
+          "correct": true,
+          "explanation": "Consistent criteria make the comparison more meaningful."
+        },
+        {
+          "question": "Returning to a skill later can be part of a practice plan.",
+          "correct": true,
+          "explanation": "A later attempt checks what can be recalled and applied."
+        },
+        {
+          "question": "Course completion guarantees flawless speaking in every future situation.",
+          "correct": false,
+          "explanation": "Speaking skill continues to develop across differing tasks and audiences."
+        }
+      ],
+      "references": [
+        {
+          "title": "Exploring Public Speaking 4.2 — 11.4 – Practicing Your Delivery",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/aec186cc-bfbf-46d6-9fa9-94e72afa12c0#practicing-your-delivery",
+          "assignment": "Reread section 11.4 and compare two rehearsals using the same criterion. Allow 10–15 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "Exploring Public Speaking 4.2 — Appendix I: Sample Outlines and Formats",
+          "url": "https://alg.manifoldapp.org/read/exploring-public-speaking-the-free-dalton-state-college-public-speaking-textbook-edition-4-2-2023/section/76773291-19e6-48c1-b08f-625eacd7a320",
+          "assignment": "Read Appendix I: the Informative Speech on Types of Coffee Around the World and Sample Format 1. Compare their structure with your own capstone. Allow 15–20 minutes.",
+          "author": "Barbara G. Tucker and contributors",
+          "publisher": "University System of Georgia / OpenALG",
+          "year": "2023",
+          "license": "CC BY-NC-SA 4.0, except where noted; publisher-hosted original."
+        },
+        {
+          "title": "Toastmasters: preparing a speech",
+          "url": "https://www.toastmasters.org/resources/public-speaking-tips/preparing-a-speech",
+          "assignment": "Optional companion: read the main article on this linked page. For an accompanying video or transcript, study only the time range assigned above; no additional full video is required."
+        },
+        {
+          "title": "TED: building a talk around an idea",
+          "url": "https://www.ted.com/talks/chris_anderson_ted_s_secret_to_great_public_speaking",
+          "assignment": "Optional companion: read the main article on this linked page. For an accompanying video or transcript, study only the time range assigned above; no additional full video is required."
+        }
+      ],
+      "practiceRubric": [
+        "A listener can repeat my main point.",
+        "My examples are relevant and clearly labelled.",
+        "My speech has an opening, connected middle and purposeful ending.",
+        "My voice and delivery make the message understandable.",
+        "I can name one improvement and demonstrate it in a second attempt."
+      ]
+    }
+  ],
+  "books": [
+    {
+      "title": "Exploring Public Speaking, edition 4.2 (2023)",
+      "author": "Barbara G. Tucker and contributors",
+      "publisher": "University System of Georgia / OpenALG",
+      "url": "https://alg.manifoldapp.org/projects/exploring-public-speaking",
+      "access": "Free HTML textbook and publisher PDF · CC BY-NC-SA 4.0, except where noted.",
+      "assignment": "Use the numbered sections assigned in each module: 1.2; 2.1 and 2.5; 3.2–3.3; 6.1, 6.3–6.4; 7.1–7.2; 8.1–8.2 and 8.4; 11.2, 11.4–11.5; Appendix I. Web sections are the required locators; PDF page numbers vary by edition."
+    },
+    {
+      "title": "College Success — 8.1 An Overview of Communication",
+      "author": "Amy Baldwin",
+      "publisher": "OpenStax, Rice University",
+      "url": "https://openstax.org/books/college-success/pages/8-1-an-overview-of-communication",
+      "access": "Free publisher-hosted web reading · consult the current edition’s licence.",
+      "assignment": "Read web section 8.1 in full as a companion to the speaking course. Allow 15–20 minutes. Note one communication barrier and one way to check understanding."
+    }
+  ],
+  "retentionPlan": [
+    "Today: watch, retrieve the main idea, speak, review, and repeat.",
+    "Tomorrow: explain the skill from memory in a one-minute practice.",
+    "In seven days: apply the skill to a different audience and compare your two attempts."
+  ]
+}

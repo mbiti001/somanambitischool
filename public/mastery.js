@@ -1,0 +1,14 @@
+/* Section progression is also enforced by the server for signed-in learners. */
+const LearningMastery=(()=>{
+ const units=lesson=>lesson.units||[{id:'review',title:lesson.title,questions:lesson.questions}];
+ const order=catalogue=>[...new Set(catalogue.map(l=>l.module))].flatMap(module=>catalogue.filter(l=>l.module===module));
+ function normalisePasses(raw,catalogue){const result={};if(!raw||typeof raw!=='object'||Array.isArray(raw))return result;for(const lesson of catalogue){const values=raw[lesson.id];if(!Array.isArray(values))continue;const prefix=[];for(const unit of units(lesson)){if(values[prefix.length]!==unit.id)break;prefix.push(unit.id);}if(prefix.length)result[lesson.id]=prefix;}return result;}
+ const passed=(lesson,state)=>state.completed.includes(lesson.id)?units(lesson).length:(normalisePasses(state.unitPasses,[lesson])[lesson.id]||[]).length;
+ const modulePasses=raw=>{if(!Array.isArray(raw))return [];const out=[];for(let i=0;i<4;i++){if(raw[i]!==i)break;out.push(i);}return out;};
+ const moduleIndex=(lesson,catalogue)=>[...new Set(catalogue.map(l=>l.module))].indexOf(lesson.module);
+ const moduleReady=(index,state,catalogue)=>modulePasses(state.modulePasses).length>=index&&catalogue.filter(l=>moduleIndex(l,catalogue)===index).every(l=>passed(l,state)===units(l).length);
+ function available(id,state,catalogue){const lesson=catalogue[id];if(!lesson||modulePasses(state.modulePasses).length<moduleIndex(lesson,catalogue))return false;if(state.completed.includes(id))return true;const path=order(catalogue),index=path.findIndex(l=>l.id===id);return index>=0&&path.slice(0,index).every(l=>state.completed.includes(l.id));}
+ function sectionAvailable(lesson,index,state){return Number.isInteger(index)&&index>=0&&index<units(lesson).length&&index<=passed(lesson,state);}
+ function apply(state,action,catalogue){const lesson=catalogue[action.lesson];if(!Number.isInteger(action.lesson)||!lesson||!available(action.lesson,state,catalogue))throw new Error('Complete the earlier chapters before starting this chapter.');const items=units(lesson),index=items.findIndex(u=>u.id===action.unit);if(!sectionAvailable(lesson,index,state))throw new Error('Earn 100% in the previous section to unlock this one.');const questions=items[index].questions,answers=action.answers;if(!Array.isArray(answers)||answers.length!==questions.length||!questions.every((q,i)=>Number.isInteger(answers[i])&&answers[i]===q.correct))throw new Error('Answer every question correctly to earn 100% and unlock the next section.');const count=Math.max(passed(lesson,state),index+1);state.unitPasses=normalisePasses(state.unitPasses,catalogue);state.unitPasses[lesson.id]=items.slice(0,count).map(u=>u.id);if(count===items.length&&!state.completed.includes(lesson.id))state.completed.push(lesson.id);return state;}
+ return Object.freeze({units,order,normalisePasses,modulePasses,moduleIndex,moduleReady,passed,available,sectionAvailable,apply});
+})();

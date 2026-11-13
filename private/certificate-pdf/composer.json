@@ -1,0 +1,21 @@
+{
+  "name": "soma-na-mbiti/certificates",
+  "description": "Private Unicode completion certificate renderer",
+  "type": "project",
+  "require": {
+    "php": ">=8.2 <9.0",
+    "ext-iconv": "*",
+    "ext-zlib": "*",
+    "setasign/tfpdf": "1.34",
+    "symfony/polyfill-mbstring": "1.43.3"
+  },
+  "config": {
+    "platform": {
+      "php": "8.2.0",
+      "ext-mbstring": false,
+      "ext-gd": false
+    },
+    "sort-packages": true,
+    "allow-plugins": false
+  }
+}

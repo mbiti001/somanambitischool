@@ -1,0 +1,18 @@
+# Never commit hosting secrets, student data or protected assessment banks.
+.local/
+work/
+node_modules/
+**/node_modules
+**/__pycache__/
+.env*
+.DS_Store
+private/config.php
+private/*-config.php
+private/assessment-bank.json
+private/college-course.json
+private/term-courses.json
+private/certificate-font-cache/
+*.log
+*.sqlite*
+*.jsonl
+*.zip

@@ -1,0 +1,76 @@
+/* The learning desk sits on the same warm paper as the classroom. */
+#nav-toggle { display: none; align-items: center; gap: 10px; min-height: 44px; color: var(--green); background: transparent; }
+#dashboard { border-bottom: 1px solid var(--line); }
+#dashboard .sectionhead { align-items: flex-end; gap: 24px; margin-bottom: 30px; }
+#dashboard-title { overflow-wrap: anywhere; }
+#dashboard .sectionhead > div > p { margin: 12px 0 0; font-size: 16px; }
+#dashboard-storage { max-width: 265px; padding-left: 15px; border-left: 2px solid #a58e64; font: 12px/1.7 'DM Sans',Arial,sans-serif; }
+.dashboard-metrics { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); border-block: 1px solid var(--line); margin-bottom: 30px; }
+.dashboard-metrics > div { padding: 22px 26px; min-width: 0; border-right: 1px solid var(--line); }
+.dashboard-metrics > div:first-child { padding-left: 0; }
+.dashboard-metrics > div:last-child { border: 0; }
+.dashboard-metrics span,.dashboard-metrics small { display: block; font: 12px/1.7 'DM Sans',Arial,sans-serif; color: var(--muted); }
+.dashboard-metrics strong { display: block; font: 400 clamp(25px,2.8vw,35px)/1.3 Georgia,serif; letter-spacing: -.7px; margin: 9px 0; overflow-wrap: anywhere; }
+.dashboard-metrics small { font-size: 11px; }
+.dashboard-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 25px; }
+.dashboard-next-card { position: relative; padding: 35px; border: 1px solid #cbb995; border-radius: 3px 12px 12px 3px; background: linear-gradient(90deg,#ddceb1 0,#ede2cb 5px,#faf3e4 25px); box-shadow: 0 4px 8px #72552809; }
+.dashboard-next-card .eyebrow { max-width: calc(100% - 40px); line-height: 1.8; font-size: 10px; }
+.dashboard-next-card h3 { font: 400 clamp(26px,3vw,36px)/1.25 Georgia,serif; margin: 18px 0; max-width: 450px; }
+.dashboard-next-card > p { font-size: 16px; line-height: 1.85; }
+.dashboard-next-card .dashboard-meta { font-size: 12px; margin: 24px 0; }
+.dashboard-bookmark { position: absolute; top: -1px; right: 24px; background: var(--green); color: #fff8e8; padding: 11px 9px 18px; clip-path: polygon(0 0,100% 0,100% 100%,50% 86%,0 100%); font-size: 20px; }
+.dashboard-next-card .primary { font-size: 13px; line-height: 1.6; min-height: 48px; text-align: left; }
+.dashboard-library-link { display: inline-block; margin: 20px 0 0 16px; text-decoration: underline; text-underline-offset: 4px; font: 12px/1.8 'DM Sans',Arial,sans-serif; }
+.dashboard-notebook { display: grid; gap: 20px; }
+.dashboard-notebook article { padding: 26px 28px; background: #fcf7eb; border: 1px solid var(--line); border-radius: 8px; min-width: 0; }
+.dashboard-notebook .eyebrow { margin-bottom: 12px; font-size: 9px; }
+.dashboard-notebook h3 { font: 400 26px/1.3 Georgia,serif; margin: 10px 0; overflow-wrap: anywhere; }
+.dashboard-notebook p { font-size: 15px; margin: 12px 0; line-height: 1.8; }
+.dashboard-notebook a,.dashboard-notebook button { font: 600 12px/1.8 'DM Sans',Arial,sans-serif; color: var(--green); min-height: 44px; display: inline-flex; align-items: center; padding: 0; text-align: left; }
+.dashboard-notebook small { display: block; margin-top: 10px; font: 11px/1.8 'DM Sans',Arial,sans-serif; color: var(--muted); }
+.dashboard-notebook .dashboard-meta { font: 11px/1.8 'DM Sans',Arial,sans-serif; }
+.dashboard-path-heading { margin: 38px 0 23px; display: flex; align-items: flex-end; justify-content: space-between; gap: 25px; }
+.dashboard-path-heading .eyebrow { margin-bottom: 9px; }
+.dashboard-path-heading h3 { font: 400 25px/1.4 Georgia,serif; margin: 0; }
+.dashboard-path-heading a { color: var(--green); font: 12px/1.8 'DM Sans',Arial,sans-serif; }
+.dashboard-stages { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
+.dashboard-stage { padding: 21px; border: 1px solid var(--line); background: #faf4e7; border-radius: 8px; display: flex; flex-direction: column; min-width: 0; }
+.dashboard-stage-number { color: #917c55; font: italic 22px Georgia,serif; }
+.dashboard-stage h4 { font: 600 18px/1.4 Georgia,serif; margin: 16px 0 8px; }
+.dashboard-stage p { font: 11px/1.8 'DM Sans',Arial,sans-serif; margin-top: auto; }
+.dashboard-stage progress { width: 100%; height: 5px; margin: 6px 0 15px; }
+.dashboard-stage a { font: 600 11px/1.8 'DM Sans',Arial,sans-serif; color: var(--green); min-height: 44px; display: flex; align-items: center; }
+.dashboard-footnote { font: 11px/1.8 'DM Sans',Arial,sans-serif; margin-top: 22px; max-width: 900px; }
+@media(max-width:850px) {
+  #nav-toggle { display: inline-flex; margin-left: auto; }
+  #primary-nav { display: none; }
+  #primary-nav[data-open="true"] { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); width: 100%; gap: 0 16px; }
+  #primary-nav a { border-top: 1px solid var(--line); }
+  header > .smallbtn { display: none; }
+  header > #nav-toggle { display: inline-flex; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .dashboard-notebook { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .dashboard-stages { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .dashboard-metrics > div { padding: 18px; }
+  #dashboard .sectionhead { align-items: flex-start; }
+}
+@media(max-width:560px) {
+  #primary-nav[data-open="true"] { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #dashboard .sectionhead { flex-direction: column; gap: 12px; }
+  #dashboard-storage { max-width: none; margin: 0; }
+  .dashboard-metrics { grid-template-columns: 1fr; margin-bottom: 20px; }
+  .dashboard-metrics > div,.dashboard-metrics > div:first-child { padding: 17px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+  .dashboard-metrics strong { font-size: 29px; margin: 5px 0; }
+  .dashboard-grid { gap: 20px; }
+  .dashboard-next-card { padding: 26px 24px; }
+  .dashboard-next-card h3 { font-size: 29px; }
+  .dashboard-bookmark { right: 18px; }
+  .dashboard-library-link { margin-left: 0; display: block; min-height: 44px; padding-top: 12px; }
+  .dashboard-notebook { grid-template-columns: 1fr; }
+  .dashboard-notebook article { padding: 24px; }
+  .dashboard-stages { grid-template-columns: 1fr; gap: 12px; }
+  .dashboard-stage { padding: 21px 24px; }
+  .dashboard-path-heading { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .dashboard-path-heading a { min-height: 44px; display: flex; align-items: center; }
+}
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } }

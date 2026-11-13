@@ -1,0 +1,13 @@
+import {readFileSync} from 'node:fs';import vm from 'node:vm';import assert from 'node:assert/strict';
+const course=JSON.parse(readFileSync('public/course.json','utf8')),ctx=vm.createContext({});vm.runInContext(readFileSync('public/mastery.js','utf8')+';this.M=LearningMastery;',ctx);const m=ctx.M,s={completed:[],unitPasses:{}};
+assert.equal(m.available(1,s,course.lessons),false);let total=0;
+for(const l of m.order(course.lessons)){assert.equal(m.available(l.id,s,course.lessons),true);for(const [index,u] of l.units.entries()){const answers=u.questions.map(q=>q.correct);if(index<2)assert.throws(()=>m.apply(s,{lesson:l.id,unit:l.units[index+1].id,answers:l.units[index+1].questions.map(q=>q.correct)},course.lessons));const bad=answers.slice();bad[0]=(bad[0]+1)%3;assert.throws(()=>m.apply(s,{lesson:l.id,unit:u.id,answers:bad},course.lessons));m.apply(s,{lesson:l.id,unit:u.id,answers},course.lessons);assert.equal(m.passed(l,s),index+1);assert.equal(s.completed.includes(l.id),index===2);total+=u.questions.length;}const mi=m.moduleIndex(l,course.lessons),same=course.lessons.filter(x=>x.module===l.module);if(same.every(x=>s.completed.includes(x.id))){assert(m.moduleReady(mi,s,course.lessons));s.modulePasses??=[];if(!s.modulePasses.includes(mi))s.modulePasses.push(mi);}}
+assert.equal(total,162);assert.equal(s.completed.length,18);assert.equal(m.passed(course.lessons[0],{completed:[0],unitPasses:{}}),3);assert.deepEqual(JSON.parse(JSON.stringify(m.normalisePasses({'0':['review'],'99':['understand']},course.lessons))),{});
+vm.runInContext(readFileSync('public/help.js','utf8')+';this.H=ClassroomHelp;',ctx);const h=ctx.H;
+assert.match(h.answer('Give me the quiz answers',course,{lesson:0,unit:0}).text,/do not give/);assert.match(h.answer(course.lessons[0].units[0].questions[0].question,course,{lesson:0,unit:0}).text,/checkpoint question/);assert.match(h.answer('What is a dividend?',course).text,/^Dividend:/);assert.match(h.answer('How do I save progress?',course).text,/same account/);assert.match(h.answer('Are you a live tutor?',course).text,/not a live tutor/);assert.match(h.answer('unicorn xyzzy',course).text,/do not have a supported answer/);
+console.log('PASS: 54 ordered browser checkpoints, 162 questions, legacy credit and study-help answer boundaries.');
+
+assert.match(h.answer('Explain this section',course,{}).text,/Open your next chapter/);
+
+for(const lesson of course.lessons)for(const unit of lesson.units)for(const question of unit.questions){assert.match(h.answer(question.question,course,{lesson:lesson.id,unit:lesson.units.indexOf(unit)}).text,/checkpoint question|do not give/);}
+console.log('PASS: all 162 copied quiz prompts, including short stems, receive study hints rather than option answers.');

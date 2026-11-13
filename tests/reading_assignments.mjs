@@ -1,0 +1,9 @@
+import {readFileSync} from 'node:fs';import assert from 'node:assert/strict';import vm from 'node:vm';
+const c=JSON.parse(readFileSync('public/course.json')),s=JSON.parse(readFileSync('public/speaking/content.json')),college=JSON.parse(readFileSync('private/college-course.json'));
+assert(!JSON.stringify(s).includes('open.lib.umn.edu/publicspeaking/'));assert(!readFileSync('public/speaking/index.html','utf8').includes('Stand Up, Speak Out'));
+for(const l of c.lessons){assert(l.videoAssignment&&l.videoEnd>l.videoStart);assert(l.videoEnd<=(c.videos[l.video].duration||c.videos[l.video].end));for(const u of l.units)for(const key of u.readings)assert(c.sources[key]?.assignment,key);}
+for(const m of s.modules){assert(m.video.end>m.video.start&&/\d\d:\d\d–\d\d:\d\d/.test(m.video.assignment));for(const r of m.references)assert(r.assignment&&r.url.startsWith('https://'));assert(m.references.some(r=>r.url.includes('alg.manifoldapp.org')&&/section|Appendix/.test(r.assignment)));}
+for(const m of college.modules){assert(m.video.end>m.video.start);for(const key of m.readings)assert(college.sources[key].assignment);}
+assert(s.books.every(b=>b.assignment));assert(c.readings.every(r=>c.sources[r.source].assignment));
+const ctx=vm.createContext({URL});vm.runInContext(readFileSync('public/viewer.js','utf8')+';this.V=LearningViewer;',ctx);const range=ctx.V.video('https://www.youtube.com/watch?v=Hj5tyt-QMJk&t=660s&end=964',c.videos,'https://example.test');assert.equal(new URL(range.embed).searchParams.get('start'),'660');assert.equal(new URL(range.embed).searchParams.get('end'),'964');assert.equal(new URL(range.embed).searchParams.get('autoplay'),null);
+console.log('PASS: replacement textbook throughout, numbered speaking sections, all course reading assignments, bounded video segments, and inline player start/end without autoplay.');

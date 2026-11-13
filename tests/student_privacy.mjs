@@ -1,0 +1,12 @@
+import vm from 'node:vm';import assert from 'node:assert/strict';import{readFileSync}from'node:fs';
+const cleared=[];const c=vm.createContext({user:{email:'first@example.test'},document:{body:{dataset:{view:'account'}}},$:id=>({replaceChildren:()=>cleared.push(id)}),console});
+vm.runInContext(readFileSync('public/students.js','utf8'),c);
+vm.runInContext("learnerSnapshot={student:{number:'SMB-1'},admin:true};learnerNonce=7;",c);
+vm.runInContext("clearLearnerPrivateViews();user={email:'second@example.test'};",c);
+assert.equal(vm.runInContext("learnerApplyProfile({number:'SMB-1'},'first@example.test',7,'Saved')",c),false);
+assert.equal(vm.runInContext('learnerSnapshot',c),null);assert.deepEqual(cleared,['learner-profile','student-administration','student-account-card','campus-chat','campus-gradebook','campus-office','academic-college','academic-writing','academic-integrity','academic-academic-office']);
+const app=readFileSync('public/app.js','utf8'),start=app.indexOf('let classroomNetwork='),end=app.indexOf('const usefulGuest=',start);const order=[];let release;
+const network=vm.createContext({fetch:async name=>{order.push(name);if(name==='pending-guest')await new Promise(r=>release=r);if(name==='fail')throw Error('Offline');return name;}});
+vm.runInContext(app.slice(start,end),network);const pending=vm.runInContext("classroomFetch('pending-guest')",network),login=vm.runInContext("classroomFetch('login')",network),student=vm.runInContext("classroomFetch('student')",network);
+await new Promise(r=>setImmediate(r));assert.deepEqual(order,['pending-guest']);release();await Promise.all([pending,login,student]);assert.deepEqual(order,['pending-guest','login','student']);await assert.rejects(vm.runInContext("classroomFetch('fail')",network));assert.equal(await vm.runInContext("classroomFetch('reconnect')",network),'reconnect');
+console.log('PASS: account changes clear private student views and reject late profile responses; pending guest requests finish before sign-in, and failed connections do not block later requests.');

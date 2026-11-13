@@ -1,0 +1,22 @@
+# Production: redirect HTTP before serving forms or receiving credentials.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Accounts use this one origin for sessions, links and request validation.
+    RewriteCond %{HTTP_HOST} ^www\.somanambiti\.com$ [NC]
+    RewriteRule ^ https://somanambiti.com%{REQUEST_URI} [R=301,L]
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+Options -Indexes
+DirectoryIndex index.html
+<IfModule mod_headers.c>
+    <FilesMatch "\.html$">
+        Header always set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "no-referrer"
+    Header always set X-Frame-Options "DENY"
+</IfModule>
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS speaking_accounts (
+ user_id VARCHAR(32) PRIMARY KEY,
+ state_json MEDIUMTEXT NOT NULL,
+ version INTEGER NOT NULL DEFAULT 1,
+ updated_at VARCHAR(30) NOT NULL,
+ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS speaking_quiz_results (
+ id VARCHAR(32) PRIMARY KEY,
+ user_id VARCHAR(32) NOT NULL,
+ module_index INTEGER NOT NULL,
+ answers_json MEDIUMTEXT NOT NULL,
+ score INTEGER NOT NULL,
+ submitted_at VARCHAR(30) NOT NULL,
+ UNIQUE (user_id,id),
+ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

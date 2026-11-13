@@ -1,0 +1,12 @@
+import vm from 'node:vm';import {readFileSync} from 'node:fs';import assert from 'node:assert/strict';
+const ctx=vm.createContext({});vm.runInContext(readFileSync('public/guide.js','utf8')+';this.feedback=GuideFeedback;',ctx);const feedback=ctx.feedback;
+const wrong={score:1,total:2,passed:false},correct={score:2,total:2,passed:true};
+assert.match(feedback.summary(wrong,{saved:true,previousPass:true}),/^50%/);
+assert.match(feedback.summary(wrong,{previousPass:true}),/earlier pass remains saved/);
+assert.doesNotMatch(feedback.summary(wrong,{saved:true}),/100% — this section is saved/);
+assert.match(feedback.summary(correct,{saved:false}),/Submit this attempt again/);
+assert.doesNotMatch(feedback.summary(correct,{saved:false}),/Saving your progress/);
+assert.match(feedback.summary(correct,{saved:true}),/^100% — this section is saved/);
+assert.match(feedback.summary(correct,{saving:true}),/Saving your progress/);
+assert.match(feedback.summary({score:4,total:5,passed:false}),/^80%/);
+console.log('PASS: current retake score overrides stale saved flags; earlier credit stays separate; unsaved restored attempts never imply a pending save.');

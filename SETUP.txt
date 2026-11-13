@@ -1,0 +1,491 @@
+SOMA NA MBITI / HISA CLASSROOM — SAFARICOM CPANEL PACKAGE
+Updated 12 November 2026
+
+CURRENT WEBSITE
+https://somanambiti.com/ is live on Safaricom Silver shared hosting.
+Trusted HTTPS was issued with AutoSSL. The www address redirects to the apex
+address so account forms, sessions and verification links use one origin.
+The classroom has the classic paper theme, 18 self-paced chapters, 54 learning sections, 162 checkpoint questions, seven videos, tools,
+accounts, a practice portfolio, a journal and the learner dashboard.
+
+PACKAGE AND SERVER PLACEMENT
+Source package public/ -> hosting public_html/
+Source package private/ -> hosting private/ outside public_html
+Source package database/ -> hosting database/ outside public_html
+The source uses public/ locally. Curriculum loading/generation also supports
+public_html/ on cPanel. Preserve the supplied hidden .htaccess file.
+
+The live private/config.php is NOT included. Neither are live passwords,
+application keys, local databases, development fixtures or mail outboxes.
+Make a private backup of production configuration and account data separately.
+The default WordPress onboarding files were preserved outside public_html as
+wordpress-onboarding-backup-20261112; the classroom is the public website.
+
+REQUIREMENTS
+PHP 8.2+, PDO MySQL, sessions, HTTPS and outgoing PHP mail(). Unicode character
+validation uses bundled PCRE; mbstring is not required. The current host uses
+PHP 8.3 and MariaDB. All four classroom tables use InnoDB, and the two account
+foreign-key relationships are installed. The schema explicitly selects InnoDB
+instead of relying on a host default such as MyISAM.
+
+INSTALLING ON A NEW EMPTY HOST
+1. Back up any existing website and database before replacing files.
+2. Put the folders in the locations above, keeping private files outside the
+   public website folder. Do not upload this entire source package publicly.
+3. Create a separate MySQL/MariaDB database and a database user with access.
+4. Import database/schema.sql into that EMPTY database. Never re-import the
+   initial schema over an existing production installation.
+5. Copy private/config.example.php to private/config.php outside public_html.
+   Set environment='production', site_url='https://somanambiti.com', the actual
+   database connection details, a random 64-character hexadecimal app_key,
+   mail_from='info@somanambiti.com' and mail_transport='mail'. Generate secrets
+   privately; do not put them in public files or commit them to source control.
+6. Restrict config.php to the hosting account (normally permissions 0600).
+7. Ensure a trusted certificate, the intended DNS records, HTTP-to-HTTPS and
+   www-to-apex redirects, and an active domain mailbox are configured.
+8. Check the actual mailbox delivery, verify a test account, save progress,
+   sign out/in and check another device before considering the installation
+   verified. Confirm external email-provider delivery as well as local mail.
+The live site is already installed. These steps are for a new empty host.
+
+ACCOUNTS AND SAVING
+Passwords are hashed. Email verification enables server saving. Sessions use
+HttpOnly, SameSite Lax and HTTPS Secure cookies, with two-hour inactivity expiry.
+Writes check CSRF, authenticated ownership and the account version. A stale
+write reloads the latest account rather than overwriting newer work.
+Verification links expire in 24 hours; recovery links expire in 30 minutes.
+Password reset invalidates earlier sessions. The live info@somanambiti.com
+learning account was created and verified for the authorised website check.
+Its temporary test password is not in this package. Use Forgot password to
+choose a personal password before using that account on your own devices.
+
+Guest progress stays with its browser and website origin. It can be imported
+only into a new unused account; it cannot overwrite an existing portfolio.
+Resetting practice keeps completed classes and journal snapshots. The most
+recent 500 account trades remain in history. Journal limits are 200 entries
+and 2,000 characters per field. Journal JSON export is a download, not a restore
+format or a substitute for server backups.
+
+THE LEARNING DESK
+The dashboard derives its figures from existing account/guest records. It has
+no separate progress database. It shows the next unfinished class by stage,
+completed quizzes, reviewed notes, available virtual cash and reflection
+prompts. Reader navigation follows the same stage order; original IDs 0–17
+remain stable. Completion is not a professional qualification or evidence of
+profitable trading. Practice prices are fixed and fees are simplified to zero;
+there are no deposits or real orders.
+
+IN-SITE VIDEO AND RESOURCE VIEWER
+All seven curriculum videos and the expanded source catalogue open a learning panel
+for ordinary clicks. Opening a video loads YouTube's privacy-enhanced player;
+no player is loaded before that choice and there is no autoplay. Chapter links
+retain their start times. Closing the viewer removes the player, stops audio
+and returns to the class without recreating its quiz. Playback does not mark
+classes complete. Normal modifier-clicks and explicit original-source links
+remain available.
+
+CMA investor-information, products and investor-protection pages displayed in
+an embedded official-page view during checking. CDSC and the licence register
+restrict framing; other sources may be unavailable in a frame. Every source
+therefore has an original classroom reading guide and a publisher link. The
+guides are not copies of publisher articles. Restrictions are respected.
+YouTube controls availability, ads and related-video suggestions. rel=0 limits
+suggestions to the same channel; it cannot remove all related-video content.
+The iframe sends only the site origin as its referrer for player compatibility.
+See https://developers.google.com/youtube/player_parameters and
+https://support.google.com/youtube/answer/171780 for publisher behaviour.
+
+CONTENT EDITING
+The canonical curriculum is public/course.json (public_html/course.json on the
+host). Preserve existing IDs and meanings and append new lessons instead of
+renumbering them. After editing run: php private/build-course.php
+Upload both the JSON catalogue and regenerated course.js. New source URLs
+should be declared in course.sources so the reading viewer recognises them.
+New videos should be declared in course.videos. Framing permissions should be
+checked before adding a publisher to the framedSources allowlist in viewer.js.
+No Node.js or build step is required for normal hosting/visiting.
+
+VERIFICATION
+See LAUNCH-STATUS.txt, DASHBOARD-TESTS.txt and VIEWER-TESTS.txt for current
+results. Local logic checks cover stage order, valuation, journal safeguards,
+Unicode limits, the cPanel folder layout and the curriculum/calculators.
+Browser checks covered 320/390/768/1440 widths with no horizontal overflow.
+The seven videos played inside the local viewer; live embedded playback was
+also confirmed at somanambiti.com on phone and desktop browser sizes.
+Live signup, delivery to info@somanambiti.com, email verification, guest import,
+lesson saving, journal updates, reload and fresh sign-in were confirmed.
+Independent concurrent sessions were tested locally. Physical devices, external
+mail-provider delivery and a completed production password-reset flow have not
+been verified in this pass.
+
+DEVELOPMENT CHECKS
+Use a separate development configuration/database outside public/, never the
+production database, for tests that create accounts. Do not enable development
+mail logging in production. The local fixture database is deliberately excluded.
+From the source root, appropriate focused checks include:
+  node tests/learning.mjs
+  node tests/dashboard.mjs
+  node tests/viewer.mjs
+  php tests/journal.php
+  php -d disable_functions=mb_strlen tests/text.php
+  python3 tests/cpanel_layout.py
+The account integration scripts require their disposable local development
+server/configuration; read each script before running it.
+
+OPTIONAL CLEANUP
+If Cron Jobs is available, private/cleanup.php can run daily using the account's
+full PHP/path settings. It removes expired recovery links and rate-limit
+buckets. It is CLI-only. No new production cron job was installed in this pass.
+
+EXPANDED STUDY LIBRARY — 12 NOVEMBER 2026
+All 18 classes retain their original identifiers. Each includes at least
+1,000 words of original teaching and worked examples (currently 1,031–1,194),
+with an estimate of 6 minutes at 200 words/minute. References and questions
+are excluded from that count. Exercises, video and review add time.
+Each chapter has three sections and nine questions (two, two, then five).
+All section questions must be answered and submitted together before answers
+and explanations appear. A 100% pass unlocks the next section; all three
+sections complete a chapter. Progression is checked in browser and server. Existing completion credit remains valid. No database migration
+is needed. Old cached single-question pages receive a refresh message.
+
+Four books and three courses appear in a searchable reading shelf. The material
+remains publisher-hosted; licences and authors are credited. Free access is
+separate from an open reuse licence. Some licences have noncommercial terms;
+this classroom does not republish their chapters. Review actual licence terms
+before incorporating excerpts into any future paid offering. Some publisher
+pages restrict framing; the original source link remains available.
+
+Lessons cite sections, worked examples, tasks and question explanations.
+Calculators, glossary definitions, videos and relevant FAQ answers also show
+references or original-platform authorship. Source check dates do not imply
+that a publisher endorses the classroom or guarantees future link availability.
+
+CONTENT CHECKS
+Run php private/build-course.php after changing course.json. The build checks
+reading lengths, question explanations and source credits before regenerating
+course.js. Run node tests/learning.mjs, php tests/study.php and
+python3 tests/cpanel_layout.py for curriculum, grading and host-layout checks.
+
+READING VIEWER COMPATIBILITY AND FULL QA
+The Jonick accounting PDF now has an explicit PDF route and a separately
+credited OpenStax HTML alternative. Queensland resources offer an OpenStax
+finance alternative when the publisher cannot be reached. The author and
+licence of each separate resource remain visible; alternatives are not copies
+of the original book. Publisher HTML pages remain sandboxed in the viewer.
+All 90 questions were exercised with every choice on phone and desktop. Full
+server checks also rejected each of 180 wrong choices. The test report records
+browser sizes, live checks and the local cross-browser saving scope.
+The optional tests/full_study_api.py requires an isolated development config
+at .local/full-study-config.php, an installed disposable SQLite schema, and a
+local PHP server at http://localhost:8791. Never point it at production. Local
+fixtures and credentials are excluded from this source package.
+
+SELF-PACED LEARNING GUIDES — ORIGINAL SECTION FORMAT
+The original learning-guide design has objectives, assigned publisher readings,
+original explanations, optional video, an activity, reflection and a checkpoint.
+All 18 original chapter IDs remain stable. New learners follow stage order and
+must pass each learning section at 100%. Section practice has no timer, weekly
+deadline or attempt limit. The separate formal module/final assessments below
+add timed gates and retake limits. Earlier chapter credit remains recorded;
+formal module tests still control access to subsequent modules. This is an original adaptation, not an
+affiliation with UoPeople; its scheduled weekly model is not represented as our
+self-paced format. No professional qualification is implied.
+
+Section passes are stored as a unitPasses object in the existing account JSON.
+No database migration is required. Imports and resets preserve passed sections;
+new account payloads normalise numeric chapter keys to JSON objects. Current
+answers and scratch notes are tab-local drafts, separated by account identity;
+only passed sections are saved across devices. A stale cached one-quiz reader
+receives a refresh instruction from the server rather than bypassing gates.
+
+Before AI activation, study help is a built-in, source-linked guide. It searches original classroom
+explanations, glossary and platform help. It is not a live tutor, a generative
+AI service or a trading adviser, and requires no external API key. It withholds
+checkpoint options/solutions, offers study prompts, and has an explicit unknown-
+answer response. Conversations stay in the tab and can be cleared. Publisher
+links use the existing learning viewer where embedding is permitted.
+
+Eight additional source records provide financial statements, time value,
+dividend valuation, MIT exercises, OpenLearn and Kenyan investor education.
+There are 45 credited source records and seven shelf resources. MIT exercise
+file rights are labelled separately from the site's general open licence.
+
+CURRENT VERIFICATION
+php private/build-course.php
+node tests/learning.mjs
+php tests/mastery.php
+node tests/mastery.mjs
+python3 tests/cpanel_layout.py
+python3 tests/full_study_api.py  (isolated localhost:8791 installation only)
+The full test checks all 54 section gates, 162 questions and 324 wrong choices,
+plus fresh sign-in, cross-session progress, legacy credit, reset and import.
+Browser checks covered all 54 section layouts at 1440px and 320px, delayed
+feedback, edits, retries, the help guide, and two independent browser sessions.
+A live section pass was saved on somanambiti.com and resumed after reload.
+
+RETAKE FEEDBACK FOLLOW-UP
+Current attempt scores are separate from earlier saved credit. Editing clears
+the saved-attempt flag and feedback; correct restored but unsaved attempts ask
+for resubmission rather than implying a pending save. Quiz choices stay fixed
+while a valid result saves. Study help recognises every exact copied quiz prompt,
+including short stems. Run node tests/guide_feedback.mjs for score-message
+regressions, alongside the existing mastery checks.
+
+AI TUTOR — PREPARED, DISABLED UNTIL OWNER ACTIVATION
+The optional OpenAI tutor runs server-side in private/tutor.php through
+public/tutor.php. It uses the Responses API and structured JSON replies.
+No Node server, subscription change, or database migration is required.
+Default model: gpt-5.6-terra, reasoning none, maximum 900 output tokens.
+PHP cURL with working CA certificates and outbound HTTPS is required.
+
+To activate later:
+1. Create your own OpenAI API project and enable API billing. Review the
+   current model pricing and provider data controls first. Never send a key
+   through chat or place it in browser code or public_html.
+2. Copy private/tutor-config.example.php to /home/somanamb/private/tutor-config.php
+   in cPanel, outside public_html. Set permission 0600. Enter the project key
+   privately. Keep enabled=false until ready for a controlled live test.
+3. Check the model and daily limits. Set enabled=true for the live test, sign
+   in to a verified learning account, open a lesson section and ask the tutor.
+   Verify explanations, follow-up examples, references and quiz refusals using
+   real model responses in English and Kiswahili. These live model checks are
+   still pending; preparation tests use simulated responses only.
+4. If anything fails, set enabled=false. The built-in guide remains available.
+
+Default hard caps: 20 provider attempts per verified account per UTC day,
+100 attempts across the site per UTC day, plus short request rate limits.
+Failed provider attempts count too. Daily counters are atomic and shared
+across devices/IPs. Caps bound requests, not a guaranteed currency amount;
+provider pricing/model changes affect costs. Provider spending controls should
+also be reviewed. Never increase quotas without reviewing expected costs.
+
+Only the selected section's original teaching, objective, activity, allowlisted
+source titles/publishers, the question and up to three recent exchanges are
+sent. Account identity, portfolio, journal, quiz choices and answer keys are
+excluded from the provider payload. store=false is requested. This does not
+mean the provider has no operational retention; review its current policies.
+Chat has short session memory, not cross-device history or saved progress.
+New tabs, account changes and section changes start a separate conversation.
+Clear conversation clears both the visible log and session memory; failures
+are reported. Session memory expires with the account session.
+
+Server guards intercept copied/overlapping questions and answer-selection
+requests before contacting the provider. The model must flag assessment-like
+requests, and replies are checked again for option selection or echoed answer
+text. Generative safeguards are not a guarantee against every paraphrase;
+perform live adversarial evaluation before broad release. Source links are
+restricted to the assigned catalogue. Replies render as text, never model HTML.
+The tutor cannot grade, unlock chapters, write progress or place trades.
+
+Preparation checks:
+php tests/tutor.php
+node tests/tutor_ui.mjs
+python3 tests/tutor_api.py (isolated localhost:8791, existing local QA fixture)
+HISA_CONFIG_PATH=...development-config... php tests/tutor_quota.php
+The HTTP and quota checks must never target production. No test credentials,
+real tutor-config.php, environment files or databases belong in source ZIPs.
+Official API docs: https://developers.openai.com/api/docs/guides/structured-outputs
+Model docs: https://developers.openai.com/api/docs/models/gpt-5.6-terra
+
+STRUCTURED COURSE EXPERIENCE — 13 NOVEMBER 2026
+The interface now uses four module overviews and a dedicated lesson workspace.
+The original chapter IDs, stage ordering, 54 section IDs, grading rules and
+account state remain the source of truth. No database migration is needed.
+
+New campus.js/campus.css present module progress and route the main areas:
+#dashboard, #learn, #module/0 through #module/3,
+#course/CHAPTER_ID/SECTION_ID/learn (or activity, quiz, sources).
+Hash routes work on ordinary cPanel shared hosting without rewrite changes.
+Direct links check account loading and progression before mounting a section.
+The module catalogue supports topic search and completion/module filters.
+The workspace includes a module outline, study-step tabs, thinking notes,
+checkpoints, references and a return path from the separate practice/library areas.
+
+Unfinished choices and optional notes stay in this tab, separated by guest/account
+identity. Passed sections save using the existing account API. Every question
+must be answered and the entire checkpoint submitted before feedback appears;
+100% is still required for a new section pass. Earlier valid credit remains.
+Leaving a viewer removes its media; navigating away closes open overlays.
+AI tutor activation remains separate and disabled until privately configured.
+
+Checks: node tests/campus.mjs plus existing curriculum, mastery, guide feedback,
+dashboard, viewer, account API and cPanel-layout checks as applicable. The course
+redesign report records the actual browser and cross-session verification scope.
+
+
+STUDENT SERVICES / TIMED ASSESSMENTS / CERTIFICATES — 13 November 2026
+Apply database/student-services-existing-mysql.sql to the EXISTING MySQL classroom database (this matches its existing key collation; student-services.sql is for a fresh database) before deploying this release. It only creates the additional student, assessment and certificate tables; never reimport the base schema over existing users. CLI alternative: php private/migrate-student-services.php. Existing verified accounts receive stable student numbers on first access, or are backfilled when the authorized administration register opens.
+The private assessment-bank.json includes answer keys and must remain outside public_html. Module tests: 10 true/false, 100%, five attempts; final: 15 single-answer plus 10 four-statement sets, 55 marks, minimum 47, two attempts. Failed attempt sets reopen seven days after the last failure. Server deadlines allow 120 seconds per question/set. Next locks each answer; feedback is released at the end.
+Create and verify the selected student@somanambiti.com website account. Copy private/student-config.example.php to private/student-config.php and allowlist only the verified administration account after owner authorization. Keep it private, mode 0600. No admin is enabled by default. Never put credentials in a public file.
+Certificates issue once per account after all module tests and the final pass. Default: Edwin Mbiti, Director & CEO, Soma na Mbiti. Optional private/certificate-config.php supports up to four signatories; issued certificates retain their original name and signatories. The name is captured when the final attempt begins. Account profile clearing preserves the certificate record. These are typeset completion certificates, not cryptographic signatures or professional licences.
+PHP >=8.2 with iconv and zlib is required by the bundled, locked tFPDF dependency. A bundled mbstring polyfill supports shared hosting without mbstring or GD. Do not upload private/certificate-font-cache: it is regenerated privately on the server. Unsupported scripts open the authenticated printable HTML certificate for browser PDF printing. Keep vendor license notices. composer.lock records versions; no runtime dependency download is needed.
+Never package actual config.php, tutor-config.php, student-config.php, certificate-config.php, local QA credentials, session data, databases or font caches.
+
+PUBLIC SPEAKING ACCOUNT SAVING — 13 November 2026
+Before uploading this update, import database/speaking-accounts-existing-mysql.sql into the EXISTING classroom database. It creates speaking_accounts and speaking_quiz_results, matching users.id collation without modifying existing records. For fresh databases apply speaking-accounts.sql after the base and student-services schemas. Back up the database using hosting backups before future upgrades.
+Deploy public/speaking/ to public_html/speaking/ and private/speaking.php beside bootstrap.php. Keep real private configurations unchanged. PHP >=8.2, PDO and the existing authentication/student-services setup are required. Course content.json and content.js must remain in agreement; quiz scores are graded from content.json by the server.
+Verified students sign in using their existing account. Notes, reflection, practice checkboxes, self-rubric scores, module completion and submitted quiz answers/results save online. Other devices load the same account and refresh on return when there is no active input/quiz draft. A Refresh saved progress button is available. Concurrent field edits require a choice; unrelated fields merge after a version check. Network failures keep drafts in the open tab with Retry and a leave-page warning. Unsubmitted quiz choices and unsaved offline drafts are not a persistent cross-device feature. Wait for Saved online before closing.
+Earlier browser work requires an explicit one-time import into a fresh online speaking record. Imported completion is labelled and does not fabricate a quiz result. Quiz history records actual online submissions with independently graded scores; earlier valid completion remains after a lower retry. Audio recordings remain on the device, are never uploaded and do not sync.
+Checks: python3 tests/speaking_accounts_api.py (isolated local SQLite fixture; configured localhost:8791), node tests/speaking.mjs, PHP/JS syntax checks, independent browser sessions and responsive views. Never run fixture tests against production or package .local test credentials/databases.
+
+SIGN-IN USABILITY AND SECURITY — 13 November 2026
+Deploy public/auth-ui.js, auth-ui.css, the updated main app/index, speaking accounts/index, public/api.php, private/bootstrap.php and private/signin-security.php together. No schema change: security counters use the existing rate_limits table with distinct opaque HMAC keys. Keep every actual private configuration unchanged. The production patch contains no credentials.
+Both sign-in surfaces, registration and password reset have independent Show/Hide controls, Caps Lock hints and password-manager autocomplete. Visibility resets on submission, dialog close, window blur and when hidden. Password paste remains allowed. Login pauses are displayed using the server's Retry-After value; changing the email only clears an email-specific UI pause. The server enforces every pause even in another tab/device or a modified client.
+Five failed password attempts for a normalized email within 15 minutes pause further login attempts for 15 minutes from the fifth failure, across source addresses. Thirty failed attempts per actual REMOTE_ADDR in the observation window pause that connection. Blocked retries do not prolong the lock. The ordinary request limit is 60 sign-in requests per connection per 15 minutes. Successful sign-in clears only that email's failure counter, not the connection's failures. Unknown addresses behave the same as known accounts on failure. X-Forwarded-For supplied by visitors is never trusted. A valid single-use password-reset link clears the email pause and invalidates existing sessions; connection restrictions remain. Recovery requests retain their separate limits. Existing authenticated study sessions are not revoked by a failed login attack.
+New or reset passwords require at least 15 Unicode characters and at most 72 UTF-8 bytes (the bcrypt limit); overlong values are rejected rather than truncated. Existing passwords continue to work. Sessions retain the existing two-hour idle timeout and now have an eight-hour absolute lifetime. Legacy sessions acquire a deadline when first seen after the update. Existing session rotation and HttpOnly/Secure/SameSite cookie protections remain.
+PHP error logs receive signin_failed and signin_temporarily_blocked events with short keyed identifiers and a retry interval. No raw email, IP, password, cookie or token is logged by the new guard. These controls slow guessing and credential spraying; this release does not implement MFA, passkeys, an external CAPTCHA, breach-list screening or a hosting firewall.
+Tests: tests/signin_security_api.py and tests/signin_security_unit.py use ONLY the dedicated localhost:8792 copy with .local/signin-security-config.php and signin-security.sqlite, not production. To run DOM tests, npm ci --prefix tests/auth-ui, then node tests/auth_ui.mjs. The pinned test-only jsdom dependency is not used by the website or deployed to hosting. Account integration, cross-device saving and existing privacy regressions also remain relevant.
+Security references: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html and https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html . Review thresholds against real traffic, especially shared networks, without replacing the account-specific guard with IP-only checks.
+
+SIGN-IN RETEST FOLLOW-UP — 13 November 2026
+AuthUI revision 20261113-15 clears stale errors when an editable field changes and that email/connection is no longer paused. It also removes the matching old pause message when a countdown ends, while preserving newer unrelated errors. Editing a password does not clear an active pause. The three-file frontend correction changes no authentication policy, credentials or account records.
+Expanded checks: node tests/auth_ui.mjs, node tests/auth_recovery_ui.mjs, python3 tests/recovery_retest_api.py on the dedicated local security copy. Recovery covers replaced/tampered/expired/used links, invalid password retention, actual saved-work preservation and mail-failure token cleanup. The retest report distinguishes live email/link checks from isolated test-account password changes. Never put an active recovery URL or QA credential into a report or deployment archive.
+
+EMAIL TWO-STEP SIGN-IN — CURRENT AUTHENTICATION FLOW, 13 November 2026
+Deploy the current public/api.php, app.js, two-step.js, auth-ui.js/auth-ui.css, main index, speaking accounts/index and private/two-step.php together. Main assets revision 20261113-16; speaking account controller revision 6. No schema migration: trusted-browser hashes use auth_tokens purpose=device, and keyed mail quotas use rate_limits. Preserve real private configuration. Existing authenticated study sessions remain valid until their usual expiry; new sign-ins follow this flow.
+A correct password on an unrecognised browser creates only a pending sign-in, with no authenticated user_id. It sends a cryptographically random six-digit code and binds its HMAC to that server session, challenge and account security version. The code expires in ten minutes; the original password proof expires after fifteen minutes. Correct code completion also confirms an unverified email. Codes are single use. Resends require a 60-second account-wide wait and do not replenish guesses; at most five sign-in emails per account per hour, plus a connection limit. Password and code failures share the existing five-failure / fifteen-minute guard, so submitting a correct password again cannot reset code-guess limits. Delivery failure never grants access and leaves a retry path.
+Remember this browser for 30 days is optional and OFF by default. The host-only hisa_device cookie is HttpOnly, SameSite=Lax and Secure on the live HTTPS site. Its random value is not stored in the database; the keyed hash binds it to the account security version. Trust has a fixed expiry and does not renew when used. A new browser/profile, cleared cookies or an expired marker asks for a code again. This recognises browser storage, not physical hardware or IP addresses. Students should leave it off on shared computers. My account and Speaking Studio offer Forget remembered browsers to revoke all markers for that account. Password recovery revokes every remembered marker and all older authenticated/pending sessions through session_version.
+Private code values and browser tokens must not appear in logs, reports or packages. Development mail logging is allowed only for the existing development environment. Live email uses the configured PHP mail transport, already verified for recovery. Protecting the mailbox remains important; email two-step is not a phishing-resistant passkey or authenticator factor.
+New-device verification: python3 tests/two_step_api.py against the dedicated localhost:8793 copy and .local/two-step-config.php; node tests/two_step_ui.mjs after npm ci --prefix tests/auth-ui. Other legacy application/security API tests now explicitly provision trusted LOCAL fixture browsers using tests/trusted_fixture.py, so their unrelated assertions remain useful. That helper refuses non-local URLs and any database outside disposable development SQLite. Never use it for two_step tests; the new-device suite performs real code checks without trusted-fixture shortcuts.
+Previous sign-in reports describe the earlier password-only release. The two-step report records the current browser checks, implementation boundaries and live-verification scope.
+
+MAIL DELIVERY CHECK (13 November 2026)
+The PHP mail transport now supplies the configured mail_from as its envelope sender
+(-f), aligning SPF with the website domain rather than the shared server hostname.
+Use a simple mailbox address that exists on the hosting account. Keep domain SPF
+authorising the actual Safaricom relay and DKIM published. PHP mail success means
+accepted locally, not delivered: check bounces and complete a real inbox sign-in.
+Run python3 tests/mail_transport.py to check sender arguments/headers locally without
+sending external email. This correction covers signup, recovery and sign-in codes.
+
+CAMPUS DESIGN (13 November 2026)
+Publish school.css and all favicon files with the matching main and speaking HTML.
+The original scholar mark is SVG with PNG/ICO and Apple touch variants. Campus
+navigation keeps course, library, practice and student services distinct. Speaking
+modules, rehearsal and accounts now have focused views; assessment gates remain.
+Main campus.js revision 20261113-17; school.css revision 20261113-18;
+speaking studio.js revision 6.
+
+STUDENT COMMUNITY RELEASE (13 November 2026)
+Publish the matching community API, campus policy helper, avatar API and shared
+client files as one release. Preserve actual private config.php, student-config.php
+and all other existing configuration. A separate private/campus-config.php holds
+explicitly approved super_admin_emails; it is never included in portable packages.
+The approved, verified owner opens #superadmin and chooses Set up campus tables
+once. The idempotent migration aligns MySQL foreign-key collation with users.id.
+No public, unauthenticated installer is exposed. Confirm avatarSupported=true.
+
+Profiles use existing versioned student records. Pictures accept one JPEG/PNG/WebP
+up to 1,048,576 bytes, at most 4096px/8 megapixels. GD re-encodes a square 256px JPEG
+under 80,000 bytes and strips metadata. One DB picture replaces the previous one.
+Pictures require authentication and are visible only to their owner, super admin
+or classmates sharing a joined course. Other student file/media uploads are absent.
+
+Gradebooks expose recorded assessment results and true imported-completion labels,
+not fabricated marks. Student data is own-account only; super admins can read each
+record. Muting, read-only status and suspension are enforced server-side. Suspension
+revokes authenticated sessions and remembered browser markers. Super admin accounts
+cannot restrict themselves through the office. Public guest lessons remain open.
+
+Each course has an opt-in text-only room; students acknowledge name/photo visibility
+and community rules. Student messages wait for approval. Super admins approve/hide
+posts, review reports, close rooms, restrict accounts and see recent audit actions.
+Posting has 1,200-character, 10/minute and 50/day account limits; rooms stop accepting
+posts at 5,000 retained messages. Do not equate hidden messages with deleted storage.
+The office shows 25 accounts/page, the latest 50 moderation items and 50 audit rows.
+Older audit rows remain stored. Chat history pages hold 50 messages. No HTML,
+attachment, image/video/audio upload or external-resource embed is rendered.
+
+Browser paste/drop controls apply to authored learning/reflection/journal/chat text,
+not passwords or profile fields. They discourage copying in the interface and do
+not prove authorship or provide plagiarism detection. The academic-integrity course
+and writing-review workflow are a separate queued task, not part of this release.
+
+Validation: python3 tests/community_api.py (isolated localhost:8796 fixtures only),
+node tests/community_ui.mjs, node tests/student_privacy.mjs, node tests/campus.mjs,
+node tests/speaking.mjs, and the existing two-step suite. Live deployment must be
+checked with the approved owner account before claiming super-admin activation.
+
+SHARED-HOST PICTURE/CACHE COMPATIBILITY
+Safaricom has no imagecreatefromstring/GD processor. The profile form accepts
+JPEG/PNG/WebP originals up to 1 MB, checks file signatures and dimensions, then
+uses browser canvas to crop and resize. The server validates only bounded 256px
+JPEGs in this path, strips APP/COM metadata and rejects trailing or malformed
+payloads. Avatar endpoints serve JPEG with no-sniff and a restrictive CSP.
+Run php tests/avatar_processor.php to exercise sanitizer framing and metadata.
+A no-GD localhost:8797 browser upload was verified end-to-end: 256px, 653 bytes.
+HTML now revalidates through Cache-Control. Deployment archives must preserve
+current timestamps, use 0644 for public code/assets and 0600 for private role
+configuration; default ZipInfo timestamps/permissions must not be used.
+
+ACADEMIC PATHWAY — 13 NOVEMBER 2026, RELEASE 22
+College Success (COL 100) has four modules, 40 private true/false questions,
+credited readings with specific web sections and focused video segments.
+Every College, investing and speaking module has an opening discussion (300–2000
+words) and a closing response (up to 500 words). Counts exclude title/references.
+Typed structured papers include introduction/body/conclusion, source citations,
+references, assistance disclosure and integrity acknowledgment. Basic format
+checks do not establish originality or correct APA. Human review is required.
+
+Deploy academic-release.zip into the account home (public maps to public_html;
+private and database stay outside public_html). Preserve all actual config files.
+Then sign in as the verified owner, open /#academic-office and select Enable
+academic pathway once. This idempotent migration creates academic tables and the
+College course room. Only a verified configured super administrator can run it.
+There is no public installer. The final acceptance table activates the gates;
+without it, existing course behavior remains available during staged deployment.
+
+Opening submission precedes recorded lesson progress. Both written tasks need
+teacher acceptance before a new module checkpoint. Complete College Success
+before new subject-course credit. Prior valid credit and active timed attempts
+remain available. New browser imports cannot award academic credit; speaking
+imports retain practice notes without granting new module passes. Guest practice
+is local and does not award account-based academic credit.
+
+Teacher reviews: /#academic-office, five criteria (originality/attribution,
+reasoning, structure, evidence, APA). Specific feedback is mandatory; acceptance
+requires all five criteria. Revision requests and integrity holds allow a new
+student revision and response. A reviewer cannot review their own work. No
+plagiarism-detection vendor is connected or claimed. Integrity policy /#integrity.
+School review contact: student@somanambiti.com. Do not impose misconduct sanctions
+solely on text matching or format checks; give evidence and a chance to respond.
+
+Drafts use account storage and optimistic versions. Concurrent device changes
+require comparison before replacement. No authored work is stored in shared
+browser persistent storage. Private views and held drafts clear on account change.
+Publication creates no fabricated student assignments or grades.
+
+Checks: tests/academic_api.py (disposable localhost:8796 community.sqlite only),
+community_api.py, community_ui.mjs, campus.mjs, student_privacy.mjs,
+speaking.mjs, assessments.php and PHP/JS syntax checks. Responsive browser checks
+use desktop and 390px phone viewports, not physical handset hardware.
+
+ASSIGNED READING AND VIDEO FINISH — RELEASE 24
+Removed the unavailable University of Minnesota public-speaking book from both
+speaking source files, all module references and the shelf. Replacement:
+Exploring Public Speaking, edition 4.2 (2023), Barbara G. Tucker and contributors,
+University System of Georgia / OpenALG. Numbered section links were taken from
+the publisher's table of contents and open in the in-class reader. A companion
+OpenStax College Success 8.1 reading is also linked. Publisher material stays on
+publisher hosting; no textbook was copied into the school server.
+
+All six speaking modules have specific numbered reading sections and start/end
+video ranges. All 18 investing lessons and their 54 sections have reading
+assignments; broad book homepages were replaced in assignments by relevant
+chapters. The reference shelf, video library and classroom viewer show assignments.
+Printed and document page numbers are distinguished for Jonick's 2017 accounting
+PDF. College Success's integrity guide specifies PDF pages 1–2.
+
+Video time ranges were checked against visible publisher YouTube players. The
+player receives start/end parameters without autoplay; viewing does not award
+credit. Provider outages, ads and related content remain provider-controlled.
+A fallback original publisher link stays available if embedding fails.
+
+Important: speaking/index.html used studio.js?v=7, not a date-based version.
+Release 24 updates that exact reference to ensure the academic writing links and
+new assignments load for students who previously cached version 7.
+
+Checks: node tests/reading_assignments.mjs, viewer.mjs, speaking.mjs, learning.mjs,
+guide_feedback.mjs, campus.mjs, student_privacy.mjs and php tests/assessments.php.
+Book reading was visually verified inside the 390px classroom reader. No quiz IDs,
+questions, correct choices or saved progress identifiers changed in this finish.

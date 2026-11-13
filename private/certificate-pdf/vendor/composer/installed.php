@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => 'soma-na-mbiti/certificates',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => null,
+        'type' => 'project',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => false,
+    ),
+    'versions' => array(
+        'setasign/tfpdf' => array(
+            'pretty_version' => 'v1.34',
+            'version' => '1.34.0.0',
+            'reference' => '69b06444b929e0d54ffbb5efcadfe97ecbad831b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../setasign/tfpdf',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'soma-na-mbiti/certificates' => array(
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => null,
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-mbstring' => array(
+            'pretty_version' => 'v1.43.3',
+            'version' => '1.43.3.0',
+            'reference' => '122889ed24dc000165bcbfd77ec412f15cbdfc6a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);
