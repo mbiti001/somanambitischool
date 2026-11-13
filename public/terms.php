@@ -26,7 +26,7 @@ try{
  }
  $controls=campus_controls($u['id']);if($controls['suspended']||$controls['read_only'])reply(['error'=>'Saving work is restricted for this account. Contact the student office.'],403);limited('term-write',150,3600,$u['id']);$action=$b['action']??'';
  if($action==='enroll')reply($base+term_enroll($u,(string)($b['course']??''),$now,$b));
- if(in_array($action,['draft','submit'],true))reply($base+['record'=>term_save_paper($u,$b,$now,$action==='submit'),'notice'=>$action==='submit'?'Submitted. The latest submitted revision at Thursday 08:00 will be collected.':'Private draft saved. Drafts are not collected for peer review.']);
+ if(in_array($action,['draft','submit'],true))reply($base+['record'=>term_save_paper($u,$b,$now,$action==='submit'),'notice'=>$action==='submit'?'Submitted. Ready work is routed when an eligible peer is available; unpaired papers can be routed to the professor.':'Private draft saved. Drafts are not collected for peer review.']);
  if($action==='peer'){term_save_peer($u,$b,$now);reply(['notice'=>'Peer review submitted. The professor can moderate its marks.']);}
  if($action==='practice'){term_save_practice($u,$b,$now);reply(['notice'=>'Practice notes saved to your student account.']);}
  if($action==='discuss'){term_discuss($u,$b,$now);reply(['notice'=>'Discussion submitted for moderation.']);}

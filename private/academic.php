@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__.'/community.php';
-const ACADEMIC_POLICY_VERSION=1;
+const ACADEMIC_POLICY_VERSION=2;
 function college_course():array{static $c;return $c??=json_decode(file_get_contents(__DIR__.'/college-course.json'),true,64,JSON_THROW_ON_ERROR);}
 function academic_ready():bool{try{query('SELECT user_id FROM academic_integrity_acceptance LIMIT 1');return true;}catch(PDOException $e){if(preg_match('/no such table|doesn.t exist/i',$e->getMessage()))return false;throw $e;}}
 function academic_install():void{
