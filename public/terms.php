@@ -2,7 +2,7 @@
 declare(strict_types=1);
 require dirname(__DIR__).'/private/bootstrap.php';require_once dirname(__DIR__).'/private/students.php';require_once dirname(__DIR__).'/private/certificates.php';require_once dirname(__DIR__).'/private/terms.php';
 try{
- session_begin();$u=account_user();$method=$_SERVER['REQUEST_METHOD'];$staff=campus_staff($u);$now=time();$ready=terms_ready();$base=['csrf'=>$_SESSION['csrf'],'installed'=>$ready,'superAdmin'=>$staff,'signedIn'=>(bool)($u&&$u['verified_at']!==null)];
+ session_begin();$u=account_user();$method=$_SERVER['REQUEST_METHOD'];$staff=campus_staff($u);$now=time();$ready=terms_ready();$base=['csrf'=>$_SESSION['csrf'],'installed'=>$ready,'superAdmin'=>$staff,'teacherCleared'=>$staff||($ready&&$u&&$u['verified_at']!==null&&(bool)query('SELECT 1 FROM term_professors WHERE user_id=? LIMIT 1',[$u['id']])->fetchColumn()),'signedIn'=>(bool)($u&&$u['verified_at']!==null)];
  if(!in_array($method,['GET','POST'],true))reply(['error'=>'Method not allowed.'],405);
  if($ready&&$base['signedIn']){$last=query('SELECT last_run_at FROM term_scheduler WHERE id=1')->fetchColumn();if(!$last||strtotime($last)<$now-300)terms_run_due($now,20);}
  if($method==='GET'&&($_GET['view']??'catalogue')==='catalogue')reply($base+term_catalogue($base['signedIn']?$u:null,$now));
