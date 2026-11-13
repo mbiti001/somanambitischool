@@ -5,6 +5,7 @@ ini_set('log_errors','1');
 require_once __DIR__.'/practice.php';
 require_once __DIR__.'/campus-policy.php';
 require_once __DIR__.'/session-policy.php';
+require_once __DIR__.'/browser-security.php';
 function settings(): array {
     static $config;
     if($config!==null)return $config;

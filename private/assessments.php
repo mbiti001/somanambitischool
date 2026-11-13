@@ -4,6 +4,7 @@ require_once __DIR__.'/students.php';
 require_once __DIR__.'/certificates.php';
 require_once __DIR__.'/academic.php';
 require_once __DIR__.'/terms.php';
+require_once __DIR__.'/material-access.php';
 const ASSESSMENT_SECONDS=120;
 function assessment_bank():array{
  static $bank;if($bank!==null)return $bank;
@@ -36,9 +37,22 @@ function assessment_eligible(array $paper,array $state,?string $userId=null,?int
  return count(mastery_module_passes($state['modulePasses']??[]))===4&&count(array_filter(course_catalog()['lessons'],fn($l)=>mastery_count($l,$state)===count(mastery_units($l))))===count(course_catalog()['lessons']);
 }
 function assessment_state(string $userId):array{$raw=query('SELECT state_json FROM learning_accounts WHERE user_id=?',[$userId])->fetchColumn();if(!$raw)throw new RuntimeException('Learning account missing.');return normalize_learning_state(json_decode($raw,true,512,JSON_THROW_ON_ERROR));}
-function assessment_metadata(array $paper):array{
- $max=assessment_maximum($paper);return ['key'=>$paper['key'],'title'=>$paper['title'],'kind'=>$paper['kind'],'module'=>$paper['module'],'questions'=>count($paper['questions']),'maximum'=>$max,'passPercent'=>$paper['pass_percent'],'requiredMarks'=>(int)ceil($max*$paper['pass_percent']/100),'secondsPerQuestion'=>$paper['seconds_per_question'],'maximumMinutes'=>count($paper['questions'])*2,'term'=>$paper['term']??null,'referenceSources'=>$paper['reference_sources']??($paper['kind']==='college'?college_course()['sources']:null)];
+// This check is read-only: an overview must never enroll a visitor or create a
+// student record merely to decide whether assignment references can be returned.
+function assessment_reference_access(array $paper,?array $user):bool{
+ if(!$user||$user['verified_at']===null)return false;
+ if(campus_staff($user))return true;
+ if(isset($paper['term'])){
+  if(!terms_ready())return false;$offering=$paper['term']['offering'];if(term_professor($user,$offering))return true;
+  return (bool)query("SELECT 1 FROM term_enrollments WHERE user_id=? AND offering_id=? AND status IN ('enrolled','finished','completed') LIMIT 1",[$user['id'],$offering])->fetchColumn();
+ }
+ return material_access($user,$paper['kind']==='college'?'college':'investing');
 }
+function assessment_metadata(array $paper,bool $includeSources=true):array{
+ $max=assessment_maximum($paper);$out=['key'=>$paper['key'],'title'=>$paper['title'],'kind'=>$paper['kind'],'module'=>$paper['module'],'questions'=>count($paper['questions']),'maximum'=>$max,'passPercent'=>$paper['pass_percent'],'requiredMarks'=>(int)ceil($max*$paper['pass_percent']/100),'secondsPerQuestion'=>$paper['seconds_per_question'],'maximumMinutes'=>count($paper['questions'])*2,'term'=>$paper['term']??null];
+ if($includeSources)$out['referenceSources']=$paper['reference_sources']??($paper['kind']==='college'?college_course()['sources']:null);return $out;
+}
+
 function assessment_question_public(array $q):array{
  $out=['id'=>$q['id'],'type'=>$q['type'],'section'=>$q['section'],'question'=>$q['question']];
  if($q['type']==='mcq')$out['answers']=$q['answers'];
@@ -82,7 +96,7 @@ function assessment_policy_message(array $policy):string{
 }
 function assessment_current_payload(array $row,int $now):array{
  $paper=json_decode($row['paper_json'],true,64,JSON_THROW_ON_ERROR);$answers=json_decode($row['answers_json'],true,64,JSON_THROW_ON_ERROR);$done=$row['submitted_at']!==null;
- $out=['id'=>$row['id'],'key'=>$row['assessment_key'],'version'=>(int)$row['version'],'metadata'=>assessment_metadata($paper),'status'=>$done?'submitted':'active','currentIndex'=>(int)$row['current_question'],'deadline'=>(int)$row['deadline_at'],'serverNow'=>$now,'startedAt'=>$row['started_at'],'submittedAt'=>$row['submitted_at'],'recordedQuestions'=>count(array_filter($answers,fn($a)=>!$a['timedOut'])),'timedOutQuestions'=>count(array_filter($answers,fn($a)=>$a['timedOut']))];
+ $out=['id'=>$row['id'],'key'=>$row['assessment_key'],'version'=>(int)$row['version'],'metadata'=>assessment_metadata($paper,true),'status'=>$done?'submitted':'active','currentIndex'=>(int)$row['current_question'],'deadline'=>(int)$row['deadline_at'],'serverNow'=>$now,'startedAt'=>$row['started_at'],'submittedAt'=>$row['submitted_at'],'recordedQuestions'=>count(array_filter($answers,fn($a)=>!$a['timedOut'])),'timedOutQuestions'=>count(array_filter($answers,fn($a)=>$a['timedOut']))];
  if($done){$out['result']=json_decode($row['result_json'],true,64,JSON_THROW_ON_ERROR);$out['certificate']=isset($paper['term'])?term_certificate($row['user_id'],$paper['term']['offering']):(($certificate=query('SELECT * FROM course_certificates WHERE user_id=?',[$row['user_id']])->fetch())?certificate_public($certificate):null);$out['retakePolicy']=assessment_retake_policy($row['assessment_key'],$row['user_id'],$now);}
  else $out['question']=assessment_question_public($paper['questions'][(int)$row['current_question']]);
  return $out;
@@ -125,12 +139,13 @@ function assessment_resume(string $id,string $userId,int $now):?array{
  try{if(assessment_advance($row,$now))assessment_write($row,$now);db()->commit();return $row;}catch(Throwable $e){if(db()->inTransaction())db()->rollBack();throw $e;}
 }
 function assessment_overview(string $key,?array $user,int $now):array{
- $paper=assessment_paper($key);$out=['csrf'=>$_SESSION['csrf'],'metadata'=>assessment_metadata($paper),'eligible'=>false,'student'=>null,'active'=>null,'attempts'=>[]];
+ $paper=assessment_paper($key);$materialAccess=assessment_reference_access($paper,$user);$out=['csrf'=>$_SESSION['csrf'],'metadata'=>assessment_metadata($paper,$materialAccess),'eligible'=>false,'student'=>null,'active'=>null,'attempts'=>[]];
  if(!$user||$user['verified_at']===null){$out['reason']='Sign in with a verified learning account to take this assessment.';return $out;}
+ if(!$materialAccess){$out['reason']='Enroll in the appropriate course before opening its assignment references or starting this assessment.';return $out;}
  $student=student_record($user);$out['student']=['number'=>student_number((int)$student['student_sequence']),'certificateName'=>$student['full_name']?:$user['display_name']];$out['eligible']=assessment_eligible($paper,assessment_state($user['id']),$user['id'],$now);
  if(!$out['eligible'])$out['reason']=$paper['kind']==='final'?'Pass all four module tests with 100% and complete all learning sections before the final exam.':'Complete this module’s learning sections and pass the earlier module tests with 100%.';
  if(!$out['eligible']&&academic_ready())$out['reason']='Complete College Success, the preceding modules, both teacher-accepted written tasks and any required learning sections before starting this checkpoint. Earlier recorded credit is preserved.';
- if(isset($paper['term'])&&!$out['eligible'])$out['reason']='Wait for the scheduled week, pass preceding checkpoints, obtain professor acceptance of both papers and complete assigned peer reviews. Check your class calendar or ask for an extension.';
+ if(isset($paper['term'])&&!$out['eligible'])$out['reason']='Pass the preceding module checkpoints, obtain professor acceptance and a recorded peer or professor-only route for both written tasks, and complete your assigned outgoing peer reviews. Study materials remain available at your own pace.';
  $active=query('SELECT id FROM assessment_attempts WHERE active_key=?',[$user['id'].':'.$key])->fetchColumn();
  if($active){$row=assessment_resume($active,$user['id'],$now);if($row)$out['active']=assessment_current_payload($row,$now);}
  $out['retakePolicy']=assessment_retake_policy($key,$user['id'],$now);if(!$out['retakePolicy']['canStart']){$out['eligible']=false;$out['reason']=assessment_policy_message($out['retakePolicy']);}
