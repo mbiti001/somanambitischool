@@ -14,7 +14,7 @@ s=call();assert s['enabled'] is False and s['eligible'] is False and 'api_key' n
 q={'lesson':0,'unit':0,'question':'Explain ownership simply','conversation':'a'*32}
 call(data=q,status=403,token='wrong');call(data=q,status=403,origin='https://untrusted.example');call(data=q,status=401)
 call(data={**q,'unit':99},status=400);call(data=q,raw=b'{broken',status=400)
-course=json.loads((root/'public/course.json').read_text());guard=call(data={**q,'question':course['lessons'][0]['units'][0]['questions'][0]['question']});assert guard['mode']=='study' and '2%' not in guard['text']
+course=json.loads((root/'private/legacy-investing-course.json').read_text());guard=call(data={**q,'question':course['lessons'][0]['units'][0]['questions'][0]['question']});assert guard['mode']=='study' and '2%' not in guard['text']
 fixture=json.loads((root/'.local/full-study-fixture.json').read_text());call('api.php');before=call('api.php',{'action':'login',**fixture})['account']
 s=call();assert s['enabled'] is False and s['eligible'] is True
 call(data=q,status=503);assert call(data={'action':'clear'})['cleared']

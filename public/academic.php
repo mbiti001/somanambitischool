@@ -1,19 +1,21 @@
 <?php
 declare(strict_types=1);
-require dirname(__DIR__).'/private/bootstrap.php';require dirname(__DIR__).'/private/academic.php';require_once dirname(__DIR__).'/private/terms.php';
+require dirname(__DIR__).'/private/bootstrap.php';require dirname(__DIR__).'/private/academic.php';require_once dirname(__DIR__).'/private/terms.php';require_once dirname(__DIR__).'/private/material-access.php';
 try{
  session_begin();$u=account_user();$staff=campus_staff($u);$method=$_SERVER['REQUEST_METHOD'];$base=['csrf'=>$_SESSION['csrf'],'superAdmin'=>$staff,'installed'=>academic_ready()];
  if($method==='GET'&&($_GET['view']??'')==='college'){
+  material_require($u,'college');
   $course=college_course();foreach($course['modules'] as &$m)unset($m['questions']);unset($m);$passes=$u&&$base['installed']?query('SELECT module_index FROM academic_college_passes WHERE user_id=? ORDER BY module_index',[$u['id']])->fetchAll(PDO::FETCH_COLUMN):[];
   reply($base+['course'=>$course,'signedIn'=>(bool)($u&&$u['verified_at']!==null),'passes'=>array_map('intval',$passes)]);
  }
  if(!$u||$u['verified_at']===null)reply($base+['error'=>'Sign in with a verified student account to save academic work.'],401);
  $b=$method==='POST'?student_request_body(45000):[];
  if($method==='POST'&&($b['action']??'')==='install'){if(!$staff)reply(['error'=>'Super administrator access required.'],403);academic_install();campus_audit($u,'academic_install','college');reply(['notice'=>'Academic pathway enabled. Existing course credit remains saved.']);}
+ if($method==='POST'&&($b['action']??'')==='enroll_foundation'){demand($base['installed'],'The foundation is awaiting school setup.');foundation_enroll($u,$b);reply($base+['notice'=>'College Success enrollment saved.']);}
  if(!$base['installed'])reply($base+['error'=>'The academic pathway is awaiting school setup.'],503);
  if($method==='GET'){
   $view=$_GET['view']??'task';
-  if($view==='task'){$course=$_GET['course']??'';$index=filter_var($_GET['module']??null,FILTER_VALIDATE_INT);demand($index!==false,'Choose a module.');reply($base+academic_payload($u,$course,$index));}
+  if($view==='task'){$course=$_GET['course']??'';material_require($u,(string)$course);$index=filter_var($_GET['module']??null,FILTER_VALIDATE_INT);demand($index!==false,'Choose a module.');reply($base+academic_payload($u,$course,$index));}
   if($view==='submission'){$r=query('SELECT * FROM academic_submissions WHERE id=?',[(string)($_GET['id']??'')])->fetch();if(!$r||(!$staff&&$r['user_id']!==$u['id']))reply(['error'=>'Submission not found.'],404);$student=query('SELECT id,email,display_name,verified_at FROM users WHERE id=?',[$r['user_id']])->fetch();reply($base+['submission'=>academic_public($r),'context'=>academic_context($r['course_id'],(int)$r['module_index']),'task'=>$r['task_kind'],'student'=>['name'=>campus_name($student),'number'=>student_public(student_record($student))['number']]]);}
   if($view==='review'){
    if(!$staff)reply(['error'=>'Super administrator access required.'],403);
@@ -23,6 +25,7 @@ try{
  }
  if($method!=='POST')reply(['error'=>'Method not allowed.'],405);
  $action=$b['action']??'';limited('academic-write',120,3600,$u['id']);
+ if(in_array($action,['draft','submit'],true))material_require($u,(string)($b['course']??''));
  if(in_array($action,['draft','submit'],true))reply($base+['record'=>academic_save($u,$b,$action==='submit'),'notice'=>$action==='submit'?'Submitted for teacher review.':'Draft saved to your student account.']);
  if($action==='review'){
   if(!$staff)reply(['error'=>'Super administrator access required.'],403);$status=$b['status']??'';demand(in_array($status,['accepted','revision','integrity_review'],true),'Choose a review decision.');$feedback=campus_text($b['feedback']??null,2500);demand(text_length($feedback)>=10,'Give clear, specific review feedback.');$rubric=$b['rubric']??null;demand(is_array($rubric),'Complete the review checklist.');foreach(['originality','reasoning','structure','evidence','apa'] as $key){demand(is_bool($rubric[$key]??null),'Review each rubric criterion.');if($status==='accepted')demand($rubric[$key],'All rubric criteria must be met before accepting the paper.');}

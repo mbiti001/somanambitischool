@@ -9,7 +9,7 @@ r=m.yield({price:50,dividend:2,quantity:100});close(r.yield,4);close(r.income,20
 r=m.growth({initial:10000,monthly:0,rate:5,years:2});close(r.value,11025);close(r.contributions,10000);close(r.change,1025);
 r=m.growth({initial:1000,monthly:100,rate:0,years:1});close(r.value,2200);close(r.change,0);
 r=m.growth({initial:10000,monthly:0,rate:-100,years:1});close(r.value,0);close(r.change,-10000);assert.throws(()=>m.growth({initial:1000,monthly:0,rate:5,years:1.5}));
-const c=JSON.parse(readFileSync('public/course.json','utf8'));assert.equal(c.lessons.length,18);assert.equal(Object.keys(c.videos).length,7);assert.equal(c.glossary.length,24);assert.deepEqual(c.lessons.slice(0,4).map(l=>l.correct),[0,1,2,2]);
+const c=JSON.parse(readFileSync('private/legacy-investing-course.json','utf8'));assert.equal(c.lessons.length,18);assert.equal(Object.keys(c.videos).length,7);assert.equal(c.glossary.length,24);assert.deepEqual(c.lessons.slice(0,4).map(l=>l.correct),[0,1,2,2]);
 for(const [i,l]of c.lessons.entries()){assert.equal(l.id,i);assert.ok(l.sections.length>=8);assert.equal(l.outcomes.length,3);assert.equal(l.answers.length,3);assert.ok(l.answers[l.correct]);assert.ok(c.videos[l.video]);assert.ok(l.sources.every(k=>c.sources[k]));assert.ok(l.example.text.length>100);}
 for(const v of Object.values(c.videos))assert.match(v.id,/^[\w-]{11}$/);
 const ctx=vm.createContext({});vm.runInContext(readFileSync('public/course.js','utf8')+';globalThis.result=learningCourse;',ctx);assert.equal(JSON.stringify(ctx.result),JSON.stringify(c));

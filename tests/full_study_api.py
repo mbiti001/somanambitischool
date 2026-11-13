@@ -22,7 +22,7 @@ class Device:
   except urllib.error.HTTPError as e:r=e
   data=json.loads(r.read());assert r.status==status,(r.status,data);self.csrf=data.get('csrf',self.csrf);return data
 bank=json.loads((ROOT/'private/assessment-bank.json').read_text());
-c=json.loads((ROOT/'public/course.json').read_text());a=Device();b=Device();rejections=0
+c=json.loads((ROOT/'private/legacy-investing-course.json').read_text());a=Device();b=Device();rejections=0
 path=[l for module in dict.fromkeys(l['module'] for l in c['lessons']) for l in c['lessons'] if l['module']==module]
 a.call({'action':'section','version':a.call()['account']['version'],'lesson':1,'unit':'understand','answers':[1,0]},400)
 for pi,l in enumerate(path):

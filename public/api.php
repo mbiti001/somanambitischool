@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 require dirname(__DIR__).'/private/bootstrap.php';
-require_once dirname(__DIR__).'/private/academic.php';require_once dirname(__DIR__).'/private/terms.php';
+require_once dirname(__DIR__).'/private/academic.php';require_once dirname(__DIR__).'/private/terms.php';require_once dirname(__DIR__).'/private/material-access.php';
 require dirname(__DIR__).'/private/signin-security.php';
 require dirname(__DIR__).'/private/two-step.php';
 try {
@@ -76,6 +76,8 @@ try {
         reply(['notice'=>'Verification email sent. Check your inbox and spam folder.']);
     }
     if($u['verified_at']===null)reply(['error'=>'Verify your email before saving account progress.','unverified'=>true],403);
+    material_require($u,'investing');
+    if(($b['expectedEmail']??null)!==$u['email'])reply(['error'=>'The signed-in account changed. Reopen the form before saving.','accountChanged'=>true,'conflict'=>true],409);
     $row=query('SELECT state_json,version,updated_at FROM learning_accounts WHERE user_id = ?',[$u['id']])->fetch();
     if(!is_int($b['version']??null)||$b['version']!==(int)$row['version'])reply(['error'=>'Your account changed on another device. The latest progress has been loaded. Please review and try again.','conflict'=>true],409);
     $current=json_decode($row['state_json'],true,512,JSON_THROW_ON_ERROR);

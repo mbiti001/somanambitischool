@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-function speaking_course():array{static $c;return $c??=json_decode(file_get_contents(dirname(course_path()).'/speaking/content.json'),true,64,JSON_THROW_ON_ERROR)['modules'];}
+function speaking_course():array{static $c;return $c??=json_decode(file_get_contents(__DIR__.'/legacy-speaking-course.json'),true,64,JSON_THROW_ON_ERROR)['modules'];}
 function speaking_empty():array{return ['version'=>1,'modules'=>(object)[]];}
 function speaking_module():array{return ['notes'=>'','reflection'=>'','practised'=>false,'passed'=>false,'rubric'=>(object)[],'attempts'=>0];}
 function speaking_row(string $id):array{

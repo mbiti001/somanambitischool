@@ -1,5 +1,5 @@
 import {readFileSync} from 'node:fs';import assert from 'node:assert/strict';import vm from 'node:vm';
-const c=JSON.parse(readFileSync('public/course.json')),s=JSON.parse(readFileSync('public/speaking/content.json')),college=JSON.parse(readFileSync('private/college-course.json'));
+const c=JSON.parse(readFileSync('private/legacy-investing-course.json')),s=JSON.parse(readFileSync('private/legacy-speaking-course.json')),college=JSON.parse(readFileSync('private/college-course.json'));
 assert(!JSON.stringify(s).includes('open.lib.umn.edu/publicspeaking/'));assert(!readFileSync('public/speaking/index.html','utf8').includes('Stand Up, Speak Out'));
 for(const l of c.lessons){assert(l.videoAssignment&&l.videoEnd>l.videoStart);assert(l.videoEnd<=(c.videos[l.video].duration||c.videos[l.video].end));for(const u of l.units)for(const key of u.readings)assert(c.sources[key]?.assignment,key);}
 for(const m of s.modules){assert(m.video.end>m.video.start&&/\d\d:\d\d–\d\d:\d\d/.test(m.video.assignment));for(const r of m.references)assert(r.assignment&&r.url.startsWith('https://'));assert(m.references.some(r=>r.url.includes('alg.manifoldapp.org')&&/section|Appendix/.test(r.assignment)));}

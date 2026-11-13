@@ -9,7 +9,7 @@ with tempfile.TemporaryDirectory(dir=root/'.local', prefix='cpanel-layout-') as 
     (layout/'public_html').mkdir()
     for name in ['practice.php','journal.php','text.php','course-path.php','build-course.php','mastery.php']:
         shutil.copy2(root/'private'/name, layout/'private'/name)
-    shutil.copy2(root/'public/course.json', layout/'public_html/course.json')
+    shutil.copy2(root/'private/legacy-investing-course.json', layout/'public_html/course.json')
     script = """require 'private/practice.php';
 if(count(course_catalog()['lessons'])!==18)throw new RuntimeException('Missing classes');
 $s=fresh_state();foreach(course_catalog()['lessons'][0]['units'] as $unit)$s=change_progress($s,['action'=>'section','lesson'=>0,'unit'=>$unit['id'],'answers'=>array_column($unit['questions'],'correct')]);

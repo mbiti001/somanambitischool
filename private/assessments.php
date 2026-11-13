@@ -112,7 +112,10 @@ function assessment_write(array &$row,int $now):void{
  if($q->rowCount()!==1)throw new RuntimeException('Concurrent assessment write.');$row['version']++;
 }
 function assessment_lock(string $id,string $userId):?array{
- db()->beginTransaction();
+ // Use the same enrollment→attempt order as course starts and peer routing.
+ $key=query('SELECT assessment_key FROM assessment_attempts WHERE id=? AND user_id=?',[$id,$userId])->fetchColumn();$enrollment=null;
+ if(is_string($key)&&preg_match('/^t-([a-f0-9]{8})-/', $key,$match)){$enrollment=query('SELECT id FROM term_enrollments WHERE offering_id=? AND user_id=?',[$match[1],$userId])->fetchColumn();if(!$enrollment)throw new RuntimeException('Assessment enrollment is missing.');}
+ db()->beginTransaction();if($enrollment)term_lock_enrollment($enrollment);
  if(db()->getAttribute(PDO::ATTR_DRIVER_NAME)==='sqlite')query('UPDATE assessment_attempts SET version=version WHERE id=? AND user_id=?',[$id,$userId]);
  $lock=db()->getAttribute(PDO::ATTR_DRIVER_NAME)==='mysql'?' FOR UPDATE':'';
  return query('SELECT * FROM assessment_attempts WHERE id=? AND user_id=?'.$lock,[$id,$userId])->fetch()?:null;
@@ -136,6 +139,7 @@ function assessment_overview(string $key,?array $user,int $now):array{
  return $out;
 }
 function assessment_start(string $key,array $user,int $now):array{
+ if(str_starts_with($key,'t-'))return assessment_start_term($key,$user,$now);
  $existing=query('SELECT id FROM assessment_attempts WHERE active_key=?',[$user['id'].':'.$key])->fetchColumn();if($existing){$row=assessment_resume($existing,$user['id'],$now);if($row&&$row['submitted_at']===null)return $row;}
  $policy=assessment_retake_policy($key,$user['id'],$now);demand($policy['canStart'],assessment_policy_message($policy));
  $paper=assessment_paper($key,true);demand(assessment_eligible($paper,assessment_state($user['id']),$user['id'],$now),'Complete the required learning and module checkpoints first.');$student=student_record($user);$paper['candidate_name']=$student['full_name']?:$user['display_name'];$paper['candidate_student_number']=student_number((int)$student['student_sequence']);$id=bin2hex(random_bytes(16));
@@ -157,4 +161,22 @@ function assessment_record_answer(string $id,array $user,array $body,int $now):a
   if((int)$row['current_question']===count($paper['questions']))assessment_finalize($row,$paper,$answers,$now);
   assessment_write($row,$now);db()->commit();return ['status'=>200,'data'=>['attempt'=>assessment_current_payload($row,$now)]];
  }catch(Throwable $e){if(db()->inTransaction())db()->rollBack();throw $e;}
+}
+
+// Freeze this student's peer duties atomically with starting a module attempt.
+// Allocators use the same enrollment lock before deciding a new review duty.
+function assessment_start_term(string $key,array $user,int $now):array{
+ $paper=assessment_paper($key,true);$t=$paper['term'];$student=student_record($user);
+ $en=query('SELECT id FROM term_enrollments WHERE user_id=? AND offering_id=?',[$user['id'],$t['offering']])->fetchColumn();demand((bool)$en,'Enroll in this course before starting an assessment.');
+ $paper['candidate_name']=$student['full_name']?:$user['display_name'];$paper['candidate_student_number']=student_number((int)$student['student_sequence']);
+ for($retry=0;$retry<2;$retry++){
+  db()->beginTransaction();try{
+   term_lock_enrollment($en);
+   $existing=query('SELECT id FROM assessment_attempts WHERE active_key=?',[$user['id'].':'.$key])->fetchColumn();
+   if($existing){db()->commit();$row=assessment_resume($existing,$user['id'],$now);if($row&&$row['submitted_at']===null)return $row;continue;}
+   $policy=assessment_retake_policy($key,$user['id'],$now);demand($policy['canStart'],assessment_policy_message($policy));demand(term_quiz_eligible($paper,$user['id'],$now),'Complete this module’s writing, peer-review and preceding mastery requirements first.');
+   $id=bin2hex(random_bytes(16));query('INSERT INTO assessment_attempts (id,user_id,assessment_key,active_key,paper_json,answers_json,current_question,deadline_at,started_at,updated_at) VALUES (?,?,?,?,?,?,0,?,?,?)',[$id,$user['id'],$key,$user['id'].':'.$key,json_encode($paper,JSON_THROW_ON_ERROR),'{}',$now+ASSESSMENT_SECONDS,gmdate('c',$now),gmdate('c',$now)]);db()->commit();return query('SELECT * FROM assessment_attempts WHERE id=?',[$id])->fetch();
+  }catch(Throwable $e){if(db()->inTransaction())db()->rollBack();throw $e;}
+ }
+ throw new RuntimeException('Refresh the saved assessment before starting.');
 }

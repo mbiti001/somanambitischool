@@ -20,3 +20,8 @@ DirectoryIndex index.html
 <FilesMatch "^\.">
     Require all denied
 </FilesMatch>
+
+# Course data is delivered through verified, enrollment-checked PHP endpoints.
+<FilesMatch "^(course\.(js|json)|content\.(js|json))$">
+    Require all denied
+</FilesMatch>

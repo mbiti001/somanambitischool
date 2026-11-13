@@ -13,7 +13,7 @@ function academic_install():void{
 function academic_modules(string $course):array{
  if($course==='college')return array_column(college_course()['modules'],'title');
  if($course==='investing')return ['Foundations','Buying & selling','Research & judgement','Trading discipline'];
- if($course==='speaking')return array_column(json_decode(file_get_contents(dirname(course_path()).'/speaking/content.json'),true)['modules'],'title');
+ if($course==='speaking')return array_column(json_decode(file_get_contents(__DIR__.'/legacy-speaking-course.json'),true)['modules'],'title');
  throw new InvalidArgumentException('Choose a valid course.');
 }
 function academic_context($course,$index):array{demand(is_string($course)&&in_array($course,['college','investing','speaking'],true)&&is_int($index),'Choose a valid course module.');$modules=academic_modules($course);demand(isset($modules[$index]),'Choose a valid module.');return ['course'=>$course,'index'=>$index,'title'=>$modules[$index]];}

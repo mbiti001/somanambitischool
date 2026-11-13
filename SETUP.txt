@@ -489,3 +489,22 @@ Checks: node tests/reading_assignments.mjs, viewer.mjs, speaking.mjs, learning.m
 guide_feedback.mjs, campus.mjs, student_privacy.mjs and php tests/assessments.php.
 Book reading was visually verified inside the 390px classroom reader. No quiz IDs,
 questions, correct choices or saved progress identifiers changed in this finish.
+
+ACADEMY RELEASE 31 — SELF-PACED STANDARD COURSES
+Four standard courses have ten teaching modules, with twelve weeks as a recommended study plan. Enrolled readings, videos and private practice open immediately; assessed mastery remains sequential. Each module test has ten true/false questions and requires100%. Mid-course afterModule6; final25questions (15single-answer plus10sets of4independent true/false statements),55marks,47needed. Timers2minutes/question; module/midfivefailed attempts, finaltwo; then7days.
+
+Verified College Success enrollment is explicit. Standard courses require completion of that short foundation and consent to peer sharing. Six places per Monday administrative intake. Only nonstarters expire84days after their own enrollment; meaningful saved work counts participation. Active learners continue at their pace.
+
+Upload public/ into public_html/, private/ and database/ as siblings OUTSIDE public_html. Preserve ALL actual *-config.php and private/config.php. Never upload tests, .local, actual passwords, student records, or the source ZIP under public_html. Protected teaching/answers live in private/*course*.json and private/legacy-speaking-view.html; the public retired static files and .htaccess must also be replaced to remove old public material copies. The full source ZIP is PRIVATE and includes answer banks.
+
+Owner: sign in with the existing verified super-admin account and open Teacher portal/course office; choose Enable standard courses once. The owner-only installer creates tables matching the users table collation, records its audit event and preserves historical progress. Do not invent enrollments or grades.
+
+Rolling peers pair eligible submitted papers in the same class/module/task. No self-review. Thursday08:00 Nairobi service routes solo papers to professor fallback; a professor may document an earlier fallback. Professor acceptance is required and all corrections audited.
+
+Schedule private/cron-course-terms.php with PHP8.1+ CLI every5minutes when Safaricom exposes Cron Jobs. Until configured, authenticated visits process due work lazily; exact unattended Thursday execution is NOT guaranteed. Last CLI heartbeat is separate from lazy visits. No public cron URL.
+
+Server-enforced1hour inactivity, plus8hour absolute sign-in cap. Only genuine visible keyboard/pointer/scroll activity sends a throttled activity renewal. Background polling/media never renew. Two-minute warning attempts pending saves; expiry/logout clears private content and returns home. Remembered browsers still require password sign-in.
+
+Classic Times typography, subject artwork, credited publisher cover thumbnails and external lesson-author portrait. AI-generated decorative scenes are labelled illustrative. See public/book-covers/ATTRIBUTION.txt. No publisher or external-author endorsement implied.
+
+Release checked on localhost8799 with disposable development records; capacity races, role boundaries, drafting conflicts, subject-scoped material access, retakes, routing and fast-clock session expiry pass. Real browser phone/desktop QA uses responsive viewports, not physical handsets. Preserve database backup and rollback source before enabling.

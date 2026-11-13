@@ -4,7 +4,7 @@ import vm from 'node:vm';
 const context = vm.createContext({});
 vm.runInContext(readFileSync('public/dashboard.js', 'utf8') + ';globalThis.dashboard = LearningDashboard;', context);
 const summary = context.dashboard.summary;
-const catalogue = JSON.parse(readFileSync('public/course.json', 'utf8')).lessons;
+const catalogue = JSON.parse(readFileSync('private/legacy-investing-course.json', 'utf8')).lessons;
 assert.deepEqual(Array.from(context.dashboard.orderedLessons(catalogue), lesson => lesson.id),
   [0,1,3,4,2,5,6,7,8,9,10,11,12,13,14,15,16,17]);
 const stocks = [{s:'SCOM',p:25},{s:'EQTY',p:50}];

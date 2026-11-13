@@ -1,0 +1,23 @@
+/* Course art is a presentation layer; curriculum, progress and permissions stay with their existing modules. */
+.course-art-card,.course-art-banner{--course-art-navy:#142c40;--course-art-paper:#f8f2e4;--course-art-gold:#b28d52;--course-art-line:#d5c6a9;box-sizing:border-box;margin:0;font-family:'Times New Roman',Times,Georgia,serif;color:var(--course-art-navy);overflow:hidden}
+.course-art-card img,.course-art-banner img{display:block;width:100%;height:100%;min-width:0;object-fit:cover;object-position:center}
+.course-art-card{background:var(--course-art-paper);border-bottom:1px solid var(--course-art-line)}
+.course-art-card img{height:auto;aspect-ratio:16/9}
+.course-art-card figcaption{font-size:17px;line-height:1.5;padding:13px 20px;border-top:1px solid #c5b18a;background:#f4edde;color:#4c4b42}
+.course-art-banner{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(230px,1fr);align-items:stretch;background:var(--course-art-navy);border:1px solid #b79a65;margin:20px 0 28px;min-height:205px}
+.course-art-banner>img{aspect-ratio:16/7;min-height:205px;max-height:310px}
+.course-art-banner figcaption{padding:28px 29px;display:flex;flex-direction:column;justify-content:center;color:#f9f3e5;position:relative;min-width:0}
+.course-art-banner figcaption:before{content:'';display:block;width:36px;height:2px;background:#ceb17c;margin-bottom:19px}
+.course-art-subject{display:block;font-size:16px;line-height:1.45;color:#d9c8a7}
+.course-art-banner figcaption p{font:400 clamp(25px,2.3vw,34px)/1.2 'Times New Roman',Times,Georgia,serif;letter-spacing:-.02em;color:#fff9ed;margin:14px 0 21px;overflow-wrap:break-word}
+.course-art-banner figcaption small{display:block;font-size:16px;line-height:1.5;color:#c4cfd2}
+/* Subtle differences support subject recognition without creating five unrelated designs. */
+.course-art-card[data-course-art=philosophy]{--course-art-paper:#eee3ca;--course-art-line:#c8b183}
+.course-art-card[data-course-art=investing12]{--course-art-paper:#f1ecdd;--course-art-line:#bbb695}
+.course-art-card[data-course-art=speaking12]{--course-art-paper:#f2e6d8;--course-art-line:#c9b09a}
+.course-art-card[data-course-art=ai-business]{--course-art-paper:#eaeedc;--course-art-line:#acb6a2}
+.course-art-card[data-course-art=college]{--course-art-paper:#f7efdd;--course-art-line:#cfbd95}
+@media(max-width:900px){.course-art-banner{grid-template-columns:minmax(0,1.4fr) minmax(210px,1fr)}.course-art-banner figcaption{padding:23px}.course-art-banner figcaption p{font-size:28px}}
+@media(max-width:600px){.course-art-banner{grid-template-columns:1fr;margin:18px 0 23px;min-height:0}.course-art-banner>img{min-height:0;max-height:none;height:auto;aspect-ratio:16/8.5}.course-art-banner figcaption{padding:21px 22px}.course-art-banner figcaption:before{margin-bottom:14px}.course-art-banner figcaption p{font-size:28px;margin:11px 0 14px}.course-art-banner figcaption small,.course-art-subject{font-size:16px}.course-art-card figcaption{font-size:17px;padding:12px 17px}}
+
+.course-scholar{display:flex;align-items:flex-start;gap:20px;margin:20px 0;padding:20px;background:#f5eddd;border:1px solid #cbb991;color:#142c40}.course-scholar img{width:96px;height:144px;object-fit:contain;flex:none}.course-scholar figcaption{min-width:0}.course-scholar small{font-size:15px;line-height:1.5}.course-scholar p{margin:10px 0}@media(max-width:480px){.course-scholar{display:block}.course-scholar img{margin-bottom:14px}}

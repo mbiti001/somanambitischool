@@ -1,7 +1,7 @@
 """Disposable localhost accounts only. No real mail or production data."""
 from trusted_fixture import trusted_fixture
 import pathlib,json,secrets,time,subprocess,os,urllib.request,urllib.error,http.cookiejar
-ROOT=pathlib.Path(__file__).resolve().parents[1];BASE='http://localhost:8791';bank=json.loads((ROOT/'public/speaking/content.json').read_text())['modules']
+ROOT=pathlib.Path(__file__).resolve().parents[1];BASE='http://localhost:8791';bank=json.loads((ROOT/'private/legacy-speaking-course.json').read_text())['modules']
 f={k:{'email':'speaking-'+k+'-'+str(time.time_ns())+'@example.test','password':secrets.token_urlsafe(24)} for k in ['a','b','unverified']};p=ROOT/'.local/speaking-account-fixture.json';p.write_text(json.dumps(f));p.chmod(0o600)
 env={**os.environ,'HISA_CONFIG_PATH':str(ROOT/'.local/full-study-config.php')}
 code="require 'private/bootstrap.php';$f=json_decode(file_get_contents('.local/speaking-account-fixture.json'),true);foreach($f as $k=>$v){$id=bin2hex(random_bytes(16));query('INSERT INTO users (id,email,display_name,password_hash,verified_at,session_version,created_at) VALUES (?,?,?,?,?,1,?)',[$id,$v['email'],'Speaking '.$k.' QA',password_hash($v['password'],PASSWORD_DEFAULT),$k==='unverified'?null:gmdate('c'),gmdate('c')]);query('INSERT INTO learning_accounts (user_id,state_json,version,updated_at) VALUES (?,?,1,?)',[$id,json_encode(fresh_state()),gmdate('c')]);}"

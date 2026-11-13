@@ -1,5 +1,5 @@
 import {readFileSync} from 'node:fs';import vm from 'node:vm';import assert from 'node:assert/strict';
-const c=JSON.parse(readFileSync('public/course.json','utf8')),sandbox=vm.createContext({});vm.runInContext(readFileSync('public/mastery.js','utf8')+readFileSync('public/campus.js','utf8')+';this.C=CourseCampus;this.M=LearningMastery;',sandbox);const {C,M}=sandbox;
+const c=JSON.parse(readFileSync('private/legacy-investing-course.json','utf8')),sandbox=vm.createContext({});vm.runInContext(readFileSync('public/mastery.js','utf8')+readFileSync('public/campus.js','utf8')+';this.C=CourseCampus;this.M=LearningMastery;',sandbox);const {C,M}=sandbox;
 const fresh=()=>({completed:[],unitPasses:{}});let state=fresh();const snapshot=JSON.stringify(state),modules=C.modules(c.lessons,state);
 assert.deepEqual(Array.from(modules,m=>m.items.length),[4,4,4,6]);assert.deepEqual(Array.from(modules,m=>m.total),[12,12,12,18]);assert.deepEqual(Array.from(modules,m=>m.available),[true,false,false,false]);assert.equal(JSON.stringify(state),snapshot);
 assert.deepEqual(Array.from(modules.flatMap(m=>m.items),l=>l.id),[0,1,3,4,2,5,6,7,8,9,10,11,12,13,14,15,16,17]);
