@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require dirname(__DIR__,2).'/private/bootstrap.php';require dirname(__DIR__,2).'/private/students.php';require dirname(__DIR__,2).'/private/speaking.php';require_once dirname(__DIR__,2).'/private/academic.php';
+require dirname(__DIR__,2).'/private/bootstrap.php';require dirname(__DIR__,2).'/private/students.php';require dirname(__DIR__,2).'/private/speaking.php';require_once dirname(__DIR__,2).'/private/academic.php';require_once dirname(__DIR__,2).'/private/terms.php';
 try{
  session_begin();$user=account_user();$publicUser=$user?['name'=>$user['display_name'],'email'=>$user['email'],'verified'=>$user['verified_at']!==null]:null;
  if($_SERVER['REQUEST_METHOD']==='GET'){

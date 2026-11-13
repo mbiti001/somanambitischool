@@ -28,6 +28,7 @@ function academic_previous(string $id,string $course,int $module):bool{
 function academic_latest(string $id,string $course,int $module,string $task):?array{return query('SELECT * FROM academic_submissions WHERE user_id=? AND course_id=? AND module_index=? AND task_kind=? ORDER BY revision DESC LIMIT 1',[$id,$course,$module,$task])->fetch()?:null;}
 function academic_both_accepted(string $id,string $course,int $module):bool{foreach(['opening','closing'] as $task)if((academic_latest($id,$course,$module,$task)['status']??'')!=='accepted')return false;return true;}
 function academic_guard_learning(array $u,string $course,int $module,bool $assessment=false):void{
+ if(function_exists('term_legacy_allowed')&&$course!=='college'&&!term_legacy_allowed($u,$course))reply(['error'=>'Enroll in the standard course through Courses before recording subject work.','enrollmentRequired'=>true],403);
  if(!academic_ready())return;
  if(!academic_previous($u['id'],$course,$module))reply(['error'=>'Complete College Success and the preceding module before recording new progress. Open College Success from My learning.','academicRequired'=>true],403);
  $first=academic_latest($u['id'],$course,$module,'opening');if(!$first)reply(['error'=>'Submit this module’s opening discussion before recording lesson progress.','academicRequired'=>true],403);
@@ -71,10 +72,12 @@ function academic_document($raw,string $task,bool $submit):array{
 }
 function academic_public(?array $r):?array{if(!$r)return null;return ['id'=>$r['id'],'revision'=>(int)$r['revision'],'document'=>json_decode($r['document_json'],true),'words'=>(int)$r['word_count'],'status'=>$r['status'],'feedback'=>$r['feedback'],'rubric'=>$r['rubric_json']?json_decode($r['rubric_json'],true):null,'submittedAt'=>$r['submitted_at'],'reviewedAt'=>$r['reviewed_at']];}
 function academic_payload(array $u,string $course,int $module):array{
+ if(function_exists('term_legacy_allowed')&&$course!=='college'&&!term_legacy_allowed($u,$course))reply(['error'=>'Enroll through Courses to open the current subject edition.','enrollmentRequired'=>true],403);
  $context=academic_context($course,$module);$tasks=[];foreach(['opening','closing'] as $task){$draft=query('SELECT document_json,version,updated_at FROM academic_drafts WHERE user_id=? AND course_id=? AND module_index=? AND task_kind=?',[$u['id'],$course,$module,$task])->fetch();$tasks[$task]=['submission'=>academic_public(academic_latest($u['id'],$course,$module,$task)),'draft'=>$draft?['document'=>json_decode($draft['document_json'],true),'version'=>(int)$draft['version'],'updatedAt'=>$draft['updated_at']]:['document'=>null,'version'=>0,'updatedAt'=>null]];}
  $student=student_public(student_record($u));return ['context'=>$context,'prompts'=>academic_prompts($course,$module),'tasks'=>$tasks,'available'=>academic_previous($u['id'],$course,$module),'collegeComplete'=>college_complete($u['id']),'studentName'=>$student['profile']['full_name']?:$u['display_name'],'studentNumber'=>$student['number'],'policyVersion'=>ACADEMIC_POLICY_VERSION,'instructor'=>'Edwin Mbiti'];
 }
 function academic_save(array $u,array $b,bool $submit):array{
+ if(function_exists('term_legacy_allowed')&&($b['course']??'')!=='college'&&!term_legacy_allowed($u,(string)($b['course']??'')))reply(['error'=>'Enroll through Courses before saving subject work.','enrollmentRequired'=>true],403);
  $c=academic_context($b['course']??null,$b['module']??null);$task=$b['task']??'';demand(in_array($task,['opening','closing'],true),'Choose an opening or closing task.');demand(academic_previous($u['id'],$c['course'],$c['index']),'Complete College Success and the preceding module first.');
  $latest=academic_latest($u['id'],$c['course'],$c['index'],$task);demand(!in_array($latest['status']??'',['accepted','pending'],true),'Submitted work is preserved while accepted or awaiting review.');
  if($task==='closing')demand(academic_latest($u['id'],$c['course'],$c['index'],'opening')!==null,'Submit your opening discussion before the closing response.');

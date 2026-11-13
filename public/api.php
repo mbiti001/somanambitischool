@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 require dirname(__DIR__).'/private/bootstrap.php';
-require_once dirname(__DIR__).'/private/academic.php';
+require_once dirname(__DIR__).'/private/academic.php';require_once dirname(__DIR__).'/private/terms.php';
 require dirname(__DIR__).'/private/signin-security.php';
 require dirname(__DIR__).'/private/two-step.php';
 try {

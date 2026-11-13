@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require dirname(__DIR__).'/private/bootstrap.php';require dirname(__DIR__).'/private/academic.php';
+require dirname(__DIR__).'/private/bootstrap.php';require dirname(__DIR__).'/private/academic.php';require_once dirname(__DIR__).'/private/terms.php';
 try{
  session_begin();$u=account_user();$staff=campus_staff($u);$method=$_SERVER['REQUEST_METHOD'];$base=['csrf'=>$_SESSION['csrf'],'superAdmin'=>$staff,'installed'=>academic_ready()];
  if($method==='GET'&&($_GET['view']??'')==='college'){

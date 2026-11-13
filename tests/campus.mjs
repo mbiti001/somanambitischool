@@ -9,5 +9,5 @@ for(const lesson of M.order(c.lessons)){for(const [i,u] of lesson.units.entries(
  if(c.lessons.filter(x=>x.module===lesson.module).every(x=>state.completed.includes(x.id))){state.modulePasses??=[];const mi=M.moduleIndex(lesson,c.lessons);if(!state.modulePasses.includes(mi))state.modulePasses.push(mi);}
  const total=C.modules(c.lessons,state).reduce((n,m)=>n+m.done,0);assert.equal(total,Object.values(state.unitPasses).reduce((n,p)=>n+p.length,0));
  }}
-assert.equal(C.modules(c.lessons,state).reduce((n,m)=>n+m.done,0),54);assert.equal(C.modules(c.lessons,{completed:[0],unitPasses:{}})[0].done,3);assert.equal(C.parse('#module/3').module,3);assert.equal(C.parse('').page,'dashboard');assert.equal(C.parse('#course/0/understand/<script>').page,'course/0/understand/<script>');
+assert.equal(C.modules(c.lessons,state).reduce((n,m)=>n+m.done,0),54);assert.equal(C.modules(c.lessons,{completed:[0],unitPasses:{}})[0].done,3);assert.equal(C.parse('#module/3').module,3);assert.equal(C.parse('').page,'home');assert.equal(C.parse('#course/0/understand/<script>').page,'course/0/understand/<script>');
 console.log('PASS: four modules, stable chapter order, all 54 deep-link paths and saved-section counts, partial/legacy progress, no state mutation, existing gates.');
