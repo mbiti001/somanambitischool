@@ -35,4 +35,16 @@ for c in courses.values():
  assert all(k in c['sources'] and c['sources'][k]['url'].startswith('https://') for w in c['weeks'] for k in w['readings'])
  for w in c['weeks']:
   assert all(isinstance(q['correct'],bool) and q['explanation'] for q in w['questions'])
+# The real HTTP entry points must enforce the same private-review/library scope.
+guest.call('course-review.php?course=world-literature&module=0',status=401)
+guest.call('course-library.php?course=world-literature',status=401)
+a.call('course-review.php?course=world-literature&module=0',status=403)
+b.call('course-library.php?course=world-literature',status=403)
+review=staff.call('course-review.php?course=world-literature&module=final')
+assert len(review['content']['questions'])==25 and len(review['catalogue'])==7
+assert 'correct' in review['content']['questions'][0]
+staff.call('course-review.php',{'action':'setup'})
+staff.call('course-review.php',{'course':'world-literature','module':'0','page':'overview','note':'HTTP fixture note','version':0},403,headers={'X-CSRF-Token':'wrong'})
+library=staff.call('course-library.php?course=creative-writing-ai')
+assert len(library['modules'])==10 and len(library['courses'])==7 and '"correct"' not in json.dumps(library)
 print('PASS: signed-out and unenrolled protection, professor scope, CSRF, cross-device notes, stale-version conflicts, course/result isolation, read-only enforcement, six full private banks and assigned source links.')
