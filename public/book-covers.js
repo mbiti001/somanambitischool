@@ -5,6 +5,7 @@ window.BookCovers=(()=>{
  const escape=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
  const printSource='https://he.kendallhunt.com/openstax';
  const books={
+  'writing-guide':{title:'Writing Guide with Handbook',image:'writing-guide.jpg',publisher:'OpenStax, Rice University',credit:'Original cover · OpenStax / Kendall Hunt',source:printSource},
   'introduction-philosophy':{title:'Introduction to Philosophy',image:'introduction-philosophy.jpg',publisher:'OpenStax, Rice University',credit:'Original cover · OpenStax / Kendall Hunt',source:printSource},
   'college-success':{title:'College Success',image:'college-success.jpg',publisher:'OpenStax, Rice University',credit:'Original cover · OpenStax / Kendall Hunt',source:printSource},
   entrepreneurship:{title:'Entrepreneurship',image:'entrepreneurship.jpg',publisher:'OpenStax, Rice University',credit:'Original cover · OpenStax / Kendall Hunt',source:printSource},

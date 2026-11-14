@@ -5,7 +5,7 @@ try{
  session_begin();$u=account_user();if(!$u||$u['verified_at']===null)reply(['error'=>'Sign in and verify your email to use your student campus.','csrf'=>$_SESSION['csrf'],'signedOut'=>true],401);
  $staff=campus_staff($u);$method=$_SERVER['REQUEST_METHOD'];$b=$method==='POST'?student_request_body(12000):[];if(!in_array($method,['GET','POST'],true))reply(['error'=>'Method not allowed.'],405);
  if($method==='POST'&&($b['action']??'')==='install'){if(!$staff)reply(['error'=>'Super administrator access required.'],403);campus_install();campus_audit($u,'install','campus');reply(['notice'=>'Student campus services installed.']);}
- $base=['csrf'=>$_SESSION['csrf'],'superAdmin'=>$staff,'name'=>campus_name($u),'avatarSupported'=>true,'avatarProcessor'=>function_exists('imagecreatefromstring')?'server-gd':'compact-jpeg','courses'=>CAMPUS_COURSES];
+ $base=['personId'=>$u['id'],'csrf'=>$_SESSION['csrf'],'superAdmin'=>$staff,'name'=>campus_name($u),'avatarSupported'=>true,'avatarProcessor'=>function_exists('imagecreatefromstring')?'server-gd':'compact-jpeg','courses'=>CAMPUS_COURSES];
  if(!campus_installed())reply($base+['installed'=>false,'error'=>'The student campus is awaiting administrator setup.'],503);
  $base['installed']=true;student_record($u);
  if($method==='GET'){

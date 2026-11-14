@@ -23,7 +23,7 @@ window.SessionRuntime=(()=>{
  function retire(id){if(!id)return;retired.add(id);if(retired.size>24)retired.delete(retired.values().next().value);}
  function send(type,metadata){if(!metadata?.id)return;const message=type==='ended'?{version:1,type,id:metadata.id}:{version:1,type,id:metadata.id,session:{id:metadata.id,serverNow:metadata.serverNow,idleSeconds:3600,idleDeadline:metadata.idleDeadline,absoluteDeadline:metadata.absoluteDeadline,expiresAt:metadata.expiresAt}};try{if(channel)channel.postMessage(message);else{localStorage.setItem(CHANNEL,JSON.stringify(message));localStorage.removeItem(CHANNEL);}}catch{/* Storage restrictions do not change the server deadline. */}}
  function clearPrivate(){
-  for(const name of ['CourseAccess','StandardCourses','AcademicCourse','TeacherDesk','CampusCommunity'])try{window[name]?.clear?.();}catch{}
+  for(const name of ['CurriculumReview','CourseLibrary','CourseAccess','StandardCourses','AcademicCourse','TeacherDesk','CampusCommunity'])try{window[name]?.clear?.();}catch{}
   try{if(typeof deactivateAssessment==='function')deactivateAssessment();}catch{}
   try{if(typeof assessmentDrafts!=='undefined')assessmentDrafts.clear();}catch{}
   try{if(typeof assessmentAttempt!=='undefined')assessmentAttempt=null;if(typeof assessmentOverview!=='undefined')assessmentOverview=null;}catch{}
@@ -86,7 +86,7 @@ window.SessionRuntime=(()=>{
   finally{if(checking===job)checking=null;}})();checking=job;return job;
  }
  async function savePending(){
-  const stamp=epoch,id=current?.id;const jobs=[];for(const name of ['StandardCourses','AcademicCourse','SpeakingAccount'])try{if(typeof window[name]?.flush==='function')jobs.push(Promise.resolve(window[name].flush()));}catch{jobs.push(Promise.reject(Error('Save unavailable')));}
+  const stamp=epoch,id=current?.id;const jobs=[];for(const name of ['CurriculumReview','StandardCourses','AcademicCourse','SpeakingAccount'])try{if(typeof window[name]?.flush==='function')jobs.push(Promise.resolve(window[name].flush()));}catch{jobs.push(Promise.reject(Error('Save unavailable')));}
   const results=await Promise.allSettled(jobs);if(stamp!==epoch||current?.id!==id||!warning)return;
   if(results.some(r=>r.status==='rejected'||r.value===false))warning.querySelector('[data-session-status]').textContent='Some pending work could not be saved. Check your connection or stay signed in before the deadline.';
  }

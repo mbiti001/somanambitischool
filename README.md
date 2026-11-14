@@ -14,6 +14,8 @@ Keep these outside the public repository and restore them from a protected schoo
 - `private/term-courses.json` — standard-course teaching and protected examinations.
 - `private/legacy-investing-course.json`, `private/legacy-speaking-course.json` and `private/legacy-speaking-view.html` — earlier classroom material delivered only after access checks.
 
+New subject course banks (`private/*-course.json`) and `private/study-papers.json` are also excluded.
+
 The PHP application reads these files privately. Never move them into `public/`, commit their answer keys, or publish a ZIP containing them under the public website directory.
 
 ## Development and release

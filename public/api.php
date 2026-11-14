@@ -48,6 +48,7 @@ try {
     if($action==='resend_login_code'){$stepUser=step_pending($b);step_send($stepUser);}
     if($action==='cancel_login'){step_pending($b);unset($_SESSION['signin_step']);reply(account_payload(null));}
     if($action==='logout'){
+        try{school_presence_end((string)($_SESSION['runtime_id']??''));}catch(Throwable $ignored){}
         $_SESSION=[];session_regenerate_id(true);$_SESSION['csrf']=bin2hex(random_bytes(32));reply(account_payload(null));
     }
     if($action==='forgot'){

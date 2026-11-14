@@ -20,3 +20,6 @@ private/certificate-font-cache/
 private/legacy-investing-course.json
 private/legacy-speaking-course.json
 private/legacy-speaking-view.html
+
+private/*-course.json
+private/study-papers.json

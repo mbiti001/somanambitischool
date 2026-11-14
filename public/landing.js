@@ -2,6 +2,8 @@
 /* The public front door contains course outlines and portal links, never private learner records. */
 window.AcademyLanding=(()=>{
  const courses=[
+  {code:'LIT 201',id:'world-literature',title:'World Literature',description:'Read across cultures, compare voices and build a careful literary argument.',detail:'Close reading · translation · history · interpretation'},
+  {code:'WRI 201',id:'creative-writing-ai',title:'Writing as Art in the Era of AI',description:'Build a writing practice, shape a distinctive voice and revise with judgement.',detail:'Voice · craft · revision · authorship'},
   {code:'INV 201',id:'investing12',title:'Investing in Kenyan Shares',description:'Understand markets, read business evidence and practise decisions with virtual money.',detail:'Markets · research · risk · reflection'},
   {code:'COM 201',id:'speaking12',title:'Public Speaking',description:'Find your message, rehearse with purpose and speak so others can understand.',detail:'Audience · structure · delivery · practice'},
   {code:'ENT 201',id:'ai-business',title:'Entrepreneurship in the Era of AI',description:'Explore a real problem, test a useful idea and examine AI with sound business judgement.',detail:'Customer evidence · economics · responsible AI'},
@@ -22,8 +24,8 @@ window.AcademyLanding=(()=>{
       <div class="academy-hero-note"><span class="academy-note-line" aria-hidden="true"></span><p>Study with purpose. Question with confidence.<br>Practise until the learning becomes your own.</p></div>
      </div>
      <figure class="academy-hero-image">
-      <div class="academy-image-frame"><img src="academy-study.webp" width="1400" height="1050" alt="Open books, a notebook and spectacles arranged on a quiet study desk." fetchpriority="high" decoding="async"></div>
-      <figcaption><span>The work of a curious mind</span><small>Illustrative study scene</small></figcaption>
+      <div class="academy-image-frame"><img src="academy-study.webp" width="1400" height="1050" alt="Students reading at long tables in a library." fetchpriority="high" decoding="async"></div>
+      <figcaption><span>The work of a curious mind</span><small>${window.PhotoCredits?.creditHTML('home')||''}</small></figcaption>
      </figure>
     </div>
    </section>

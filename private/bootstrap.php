@@ -6,6 +6,7 @@ require_once __DIR__.'/practice.php';
 require_once __DIR__.'/campus-policy.php';
 require_once __DIR__.'/session-policy.php';
 require_once __DIR__.'/browser-security.php';
+require_once __DIR__.'/presence.php';
 function settings(): array {
     static $config;
     if($config!==null)return $config;
@@ -30,7 +31,7 @@ function session_begin(): void {
     ini_set('session.use_strict_mode','1');ini_set('session.use_only_cookies','1');ini_set('session.gc_maxlifetime','7200');
     session_name('hisa_session');session_set_cookie_params(['lifetime'=>0,'path'=>'/','secure'=>$secure,'httponly'=>true,'samesite'=>'Lax']);session_start();
     $reason=school_session_reason($_SESSION,time());
-    if($reason!==null){$_SESSION=['session_expired'=>$reason];session_regenerate_id(true);}
+    if($reason!==null){try{school_presence_end((string)($_SESSION['runtime_id']??''));}catch(Throwable $ignored){}$_SESSION=['session_expired'=>$reason];session_regenerate_id(true);}
     elseif(empty($_SESSION['user_id'])&&isset($_SESSION['last_seen'])&&time()-$_SESSION['last_seen']>=7200){$_SESSION=[];session_regenerate_id(true);}
     school_session_initialise($_SESSION,time());
     $_SESSION['last_seen']=time();if(!isset($_SESSION['csrf']))$_SESSION['csrf']=bin2hex(random_bytes(32));
@@ -41,7 +42,7 @@ function account_user(bool $writing=true): ?array {
     if(!$u||(int)$u['session_version']!==($_SESSION['session_version']??null)){unset($_SESSION['user_id'],$_SESSION['session_version']);return null;}
     campus_guard($u,$writing);return $u;
 }
-function auth_session(array $u): void {$_SESSION=[];session_regenerate_id(false);$_SESSION=['user_id'=>$u['id'],'session_version'=>(int)$u['session_version'],'csrf'=>bin2hex(random_bytes(32)),'last_seen'=>time(),'authenticated_at'=>time(),'user_activity_at'=>time(),'runtime_id'=>bin2hex(random_bytes(16))];}
+function auth_session(array $u): void {try{school_presence_end((string)($_SESSION['runtime_id']??''));}catch(Throwable $ignored){}$_SESSION=[];session_regenerate_id(false);$_SESSION=['user_id'=>$u['id'],'session_version'=>(int)$u['session_version'],'csrf'=>bin2hex(random_bytes(32)),'last_seen'=>time(),'authenticated_at'=>time(),'user_activity_at'=>time(),'runtime_id'=>bin2hex(random_bytes(16))];}
 function reply(array $data,int $status=200): never {http_response_code($status);header('Content-Type: application/json; charset=utf-8');header('Cache-Control: no-store, private');header('X-Content-Type-Options: nosniff');header('Referrer-Policy: no-referrer');echo json_encode($data,JSON_THROW_ON_ERROR);exit;}
 function email_input($value): string {if(is_string($value))$value=trim($value);demand(is_string($value)&&strlen($value)<=254&&filter_var($value,FILTER_VALIDATE_EMAIL)!==false,'Enter a valid email address.');return strtolower($value);}
 function password_input($value): string {demand(is_string($value)&&preg_match('//u',$value)===1&&!str_contains($value,"\0")&&text_length($value)>=15&&strlen($value)<=72,'Use at least 15 characters and no more than 72 bytes. A few unrelated words make a useful passphrase.');return $value;}

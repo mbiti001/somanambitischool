@@ -8,13 +8,14 @@ const TERM_RUBRIC=['originality','reasoning','structure','evidence','apa'];
 function term_courses():array{
  static $courses;if($courses!==null)return $courses;
  $courses=json_decode(file_get_contents(__DIR__.'/term-courses.json'),true,128,JSON_THROW_ON_ERROR);
+ foreach(['world-literature','creative-writing-ai'] as $extra){$path=__DIR__.'/'.$extra.'-course.json';if(is_file($path)){$c=json_decode(file_get_contents($path),true,128,JSON_THROW_ON_ERROR);demand(($c['id']??null)===$extra,'Check the course edition.');$courses[$extra]=$c;}}
  return $courses;
 }
 function term_course(string $id):array{$courses=term_courses();demand(isset($courses[$id]),'Choose an available course.');return $courses[$id];}
 function terms_ready():bool{try{query('SELECT id FROM term_scheduler LIMIT 1');query('SELECT paper_id FROM term_peer_routes LIMIT 1');return true;}catch(PDOException $e){if(preg_match('/no such table|doesn.t exist/i',$e->getMessage()))return false;throw $e;}}
 function terms_install():void{
  demand(academic_ready(),'Enable College Success and academic writing first.');
- demand(count(term_courses())===4,'Prepare all four standard courses before enabling enrollment.');
+ demand(count(term_courses())>=4,'Prepare the standard course catalogue before enabling enrollment.');
  foreach(term_courses() as $course){demand(count($course['weeks'])===10,'Each standard course needs ten teaching weeks.');foreach($course['weeks'] as $w)demand(count($w['questions'])===10,'Complete every module checkpoint.');demand(count($course['final']['a'])===15&&count($course['final']['b'])===10,'Complete each final examination.');}
  $sql=file_get_contents(dirname(__DIR__).'/database/course-terms.sql');
  if(db()->getAttribute(PDO::ATTR_DRIVER_NAME)==='sqlite')$sql=str_replace(' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci','',$sql);
