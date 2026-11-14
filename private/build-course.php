@@ -32,5 +32,6 @@ foreach($course['lessons'] as $index=>$lesson){
 }
 foreach($course['sources'] as $source)foreach(['author','title','publisher','access','license','checked'] as $field)if(empty($source[$field]))throw new RuntimeException('Source credit missing: '.$field);
 $js="// Generated from course.json. Keep lesson IDs stable when editing the curriculum.\nconst learningCourse = ".json_encode($course,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR).";\n";
-file_put_contents(dirname($path).'/course.js',$js,LOCK_EX);
-echo count($course['lessons'])." classes generated.\n";
+// Deliberately do not emit public JavaScript containing protected teaching.
+
+echo count($course['lessons'])." private classes validated.\n";

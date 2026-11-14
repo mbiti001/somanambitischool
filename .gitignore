@@ -16,3 +16,10 @@ private/certificate-font-cache/
 *.sqlite*
 *.jsonl
 *.zip
+
+private/legacy-investing-course.json
+private/legacy-speaking-course.json
+private/legacy-speaking-view.html
+
+private/*-course.json
+private/study-papers.json

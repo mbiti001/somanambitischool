@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 require dirname(__DIR__).'/private/bootstrap.php';
-require dirname(__DIR__).'/private/tutor.php';
+require dirname(__DIR__).'/private/tutor.php';require_once dirname(__DIR__).'/private/material-access.php';
 try{
  session_begin();$c=tutor_config();$user=account_user();
- if($_SERVER['REQUEST_METHOD']==='GET')reply(['enabled'=>tutor_ready($c),'eligible'=>$user&&$user['verified_at']!==null,'csrf'=>$_SESSION['csrf']]);
+ if($_SERVER['REQUEST_METHOD']==='GET')reply(['enabled'=>tutor_ready($c),'eligible'=>material_access($user,'investing'),'csrf'=>$_SESSION['csrf']]);
  if($_SERVER['REQUEST_METHOD']!=='POST')reply(['error'=>'Method not allowed.'],405);
  if(($_SERVER['HTTP_ORIGIN']??'')!==rtrim(settings()['site_url'],'/')||($_SERVER['HTTP_SEC_FETCH_SITE']??'')==='cross-site')reply(['error'=>'Open the tutor on this website.'],403);
  if(!str_starts_with($_SERVER['CONTENT_TYPE']??'','application/json'))reply(['error'=>'Expected JSON.'],415);
@@ -13,6 +13,7 @@ try{
  $b=json_decode($raw,true,16,JSON_THROW_ON_ERROR);if(!is_array($b))reply(['error'=>'Invalid request.'],400);
  if(!hash_equals($_SESSION['csrf'],$_SERVER['HTTP_X_CSRF_TOKEN']??''))reply(['error'=>'Your session changed. Refresh and try again.'],403);
  if(($b['action']??'')==='clear'){unset($_SESSION['tutor']);reply(['cleared'=>true]);}
+ material_require($user,'investing');
  limited('tutor-requests',20,60);$question=$b['question']??null;
  if(!is_string($question)||!trim($question)||text_length($question)>600)reply(['error'=>'Ask a question of up to 600 characters.'],400);
  $question=trim($question);if(($b['action']??'')==='guard')reply(['assessment'=>tutor_assessment($question,course_catalog())]);$lesson=$b['lesson']??null;$index=$b['unit']??null;

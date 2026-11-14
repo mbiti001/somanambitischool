@@ -1,0 +1,4 @@
+<?php
+declare(strict_types=1);
+require dirname(__DIR__).'/private/bootstrap.php';require_once dirname(__DIR__).'/private/course-library.php';
+try{session_begin();$u=account_user();if(!$u||$u['verified_at']===null)reply(['error'=>'Sign in to open your library.'],401);if($_SERVER['REQUEST_METHOD']!=='GET')reply(['error'=>'Method not allowed.'],405);limited('course-library',180,60,$u['id']);$course=$_GET['course']??null;demand($course===null||is_string($course),'Choose a course library.');reply(['csrf'=>$_SESSION['csrf']]+course_library($u,$course));}catch(InvalidArgumentException|JsonException $e){reply(['error'=>$e instanceof InvalidArgumentException?$e->getMessage():'Choose a course library.'],400);}catch(Throwable $e){error_log('Course library unavailable: '.get_class($e));reply(['error'=>'The library could not be loaded. Please retry.'],503);}

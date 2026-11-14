@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import {webcrypto} from 'node:crypto';
+const source=fs.readFileSync(new URL('../public/presence.js',import.meta.url),'utf8');
+let current='a'.repeat(32),calls=[],pending=null,docEvents={},winEvents={},timers=new Map(),nextTimer=0;
+const user='1'.repeat(32),label={textContent:''},dot={dataset:{presenceUser:user},setAttribute(k,v){this[k]=v;},querySelector(){return label;}};
+const document={visibilityState:'visible',body:{},querySelectorAll(){return [dot];},addEventListener(k,v){docEvents[k]=v;}};
+const window={SessionRuntime:{snapshot:()=>current?{id:current}:null},addEventListener(k,v){winEvents[k]=v;}};
+const fetch=async(path,options={})=>{
+ calls.push({path,options,body:options.body?JSON.parse(options.body):null});
+ if(pending){const p=pending;pending=null;return await p;}
+ return {ok:true,json:async()=>options.method==='POST'?{online:true}:{verified:true,csrf:'private-csrf',runtime:current,installed:true,online:{[user]:true}}};
+};
+const context={window,document,fetch,location:{pathname:'/'},crypto:webcrypto,Uint8Array,AbortController,MutationObserver:class{observe(){}disconnect(){}},setInterval:f=>{const id=++nextTimer;timers.set(id,f);return id;},clearInterval:id=>timers.delete(id),setTimeout:f=>++nextTimer,clearTimeout:()=>{}};
+vm.runInNewContext(source,context);const p=window.SchoolPresence;
+assert.equal(p.badge('" onmouseover="bad'), '');assert.match(p.badge(user),/aria-label="Offline"/);
+assert.equal(await p.start(),true);assert.equal(dot.dataset.online,'true');assert.equal(dot['aria-label'],'Online');
+const pulse=calls.find(x=>x.body?.action==='pulse');assert.equal(pulse.body.runtime,current);assert.match(pulse.body.tab,/^[a-f0-9]{64}$/);assert.equal(pulse.body.sequence,1);
+assert.ok(calls.every(x=>x.path.startsWith('presence.php')),'Presence must never call the session activity endpoint.');
+document.visibilityState='hidden';docEvents.visibilitychange();assert.equal(dot.dataset.online,'false');assert.equal(timers.size,0);assert.equal(calls.at(-1).body.action,'leave');assert.equal(calls.at(-1).body.tab,pulse.body.tab);assert.equal(calls.at(-1).body.sequence,2);
+const count=calls.length;assert.equal(await p.refresh(),false);assert.equal(calls.length,count,'Hidden page must not poll.');
+document.visibilityState='visible';await p.start();assert.equal(dot.dataset.online,'true');
+let release;pending=new Promise(resolve=>release=resolve);const old=p.refresh();p.clear();const clearCount=calls.length;current='b'.repeat(32);
+release({ok:true,json:async()=>({verified:true,csrf:'stale-csrf',runtime:'a'.repeat(32),online:{[user]:true}})});await old;
+assert.equal(dot.dataset.online,'false','Old account response repainted an online dot.');assert.equal(calls.length,clearCount,'Old response started another request.');
+assert.equal(await p.start(),true);const newPulse=calls.filter(x=>x.body?.action==='pulse').at(-1);assert.equal(newPulse.body.runtime,current);assert.notEqual(newPulse.body.tab,pulse.body.tab);assert.equal(newPulse.options.headers['X-CSRF-Token'],'private-csrf');
+pending=Promise.resolve({ok:false,status:503,json:async()=>({error:'temporarily unavailable'})});assert.equal(await p.refresh(),false);assert.equal(dot.dataset.online,'false');assert.equal(await p.refresh(),true,'Temporary outage permanently disabled presence.');
+winEvents['soma-session-ended']();assert.equal(dot.dataset.online,'false');assert.equal(timers.size,0);
+current='';const endedCount=calls.length;assert.equal(await p.start(),false);assert.equal(calls.length,endedCount,'No runtime must not initiate verified polling.');
+console.log('PASS: safe accessible badges; visible-only pulse/poll; own-tab leave; no auth activity; stale-account response isolation; session-end cleanup.');

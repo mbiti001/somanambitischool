@@ -12,6 +12,9 @@ Keep these outside the public repository and restore them from a protected schoo
 - `private/assessment-bank.json` — formal investing examinations.
 - `private/college-course.json` — foundation teaching and protected checkpoints.
 - `private/term-courses.json` — standard-course teaching and protected examinations.
+- `private/legacy-investing-course.json`, `private/legacy-speaking-course.json` and `private/legacy-speaking-view.html` — earlier classroom material delivered only after access checks.
+
+New subject course banks (`private/*-course.json`) and `private/study-papers.json` are also excluded.
 
 The PHP application reads these files privately. Never move them into `public/`, commit their answer keys, or publish a ZIP containing them under the public website directory.
 
@@ -22,3 +25,5 @@ Public pages live in `public/`, server code in `private/`, database migrations i
 Use feature branches and pull requests for coordinated changes. Review the phone and desktop staging preview and obtain the owner’s approval before a production upload. Do not configure automatic production deployment from this public repository.
 
 See `SETUP.txt` for hosting instructions. Course materials link to their credited publishers; a reference does not imply endorsement.
+
+The current redesign uses flexible pacing: twelve weeks is recommended, all enrolled study materials open immediately, and assessment mastery remains sequential. Verified enrollment is required for practice. Real activity renews the one-hour idle deadline; background polling does not. The scheduled peer-routing job must be enabled separately on hosting; lazy processing is a fallback.

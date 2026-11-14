@@ -1,0 +1,14 @@
+// Synthetic DOM and deferred promises only; never contacts a school service.
+import {JSDOM} from './auth-ui/node_modules/jsdom/lib/api.js';
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const source=fs.readFileSync(new URL('../public/community.js',import.meta.url),'utf8');
+const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve};};
+const response=d=>({ok:true,json:async()=>d});
+function boot({picture}={}){const dom=new JSDOM('<main><div class="page-heading"></div></main>',{url:'https://school.invalid/',runScripts:'outside-only'}),w=dom.window,requests=[];w.AbortController=AbortController;w.fetch=(url,options)=>{const d=deferred();requests.push({url,options,...d});return d.promise;};let code=source.replace('return {mount,profile,clear};','return {mount,profile,clear,_csrf:()=>csrf};');if(picture){const start=code.indexOf(' async function pictureBlob('),end=code.indexOf(' async function profile(',start);code=code.slice(0,start)+' async function pictureBlob(){return window.pendingPicture;}\n'+code.slice(end);w.pendingPicture=picture.promise;}w.eval(code);return {w,api:w.CampusCommunity,root:w.document.querySelector('main'),requests};}
+{
+ const {w,api,root,requests}=boot(),old=api.profile(root);const json=deferred();requests[0].resolve({ok:true,json:()=>json.promise});await Promise.resolve();api.clear();assert(requests[0].options.signal.aborted);const current=api.profile(root);requests[1].resolve(response({csrf:'B-token',name:'Student B'}));await current;json.resolve({csrf:'A-token',name:'Private A name'});await old;assert.equal(api._csrf(),'B-token');assert(!root.textContent.includes('Private A name'));assert.equal(root.querySelectorAll('[data-avatar-panel]').length,1);w.close();
+}
+{
+ const picture=deferred(),{w,api,root,requests}=boot({picture});const p=api.profile(root);requests[0].resolve(response({csrf:'A-token',name:'Student A',avatar:'avatar.php?student=A'}));await p;const form=root.querySelector('form');Object.defineProperty(form.elements.avatar,'files',{value:[{size:123}]});const saving=form.onsubmit({preventDefault(){}});api.clear();const next=api.profile(root);requests[1].resolve(response({csrf:'B-token',name:'Student B'}));await next;picture.resolve(new w.Blob(['synthetic'],{type:'image/jpeg'}));await saving;assert.equal(requests.length,2,'A picture must not upload using B session after conversion');assert(!root.textContent.includes('Student A'));assert.equal(api._csrf(),'B-token');await form.onsubmit({preventDefault(){}});assert.equal(requests.length,2,'Detached old forms must be inert');w.close();
+}
+console.log('PASS: account clear aborts requests/removes profile panels; late JSON cannot restore A data or CSRF; delayed avatar conversion and detached A forms cannot upload under B.');

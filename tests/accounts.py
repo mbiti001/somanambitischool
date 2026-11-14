@@ -4,7 +4,7 @@ import json, urllib.request, urllib.error, http.cookiejar, pathlib, re, sqlite3,
 BASE='http://127.0.0.1:8787'
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 PASS='Sample-test-password-742!'
-COURSE=json.loads((ROOT/'public/course.json').read_text())
+COURSE=json.loads((ROOT/'private/legacy-investing-course.json').read_text())
 def quiz_answers(i):return [q['correct'] for q in COURSE['lessons'][i]['questions']]
 def finish_chapter(device,i):
     result=None

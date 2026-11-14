@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 const context=vm.createContext({URL});
 vm.runInContext(readFileSync('public/viewer.js','utf8')+';globalThis.viewer=LearningViewer;',context);
-const viewer=context.viewer, course=JSON.parse(readFileSync('public/course.json','utf8'));
+const viewer=context.viewer, course=JSON.parse(readFileSync('private/legacy-investing-course.json','utf8'));
 for(const item of Object.values(course.videos)){
   const video=viewer.video('https://www.youtube.com/watch?v='+item.id+'&t=90s',course.videos,'https://somanambiti.com/');
   const embed=new URL(video.embed);

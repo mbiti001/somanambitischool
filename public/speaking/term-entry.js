@@ -1,0 +1,2 @@
+'use strict';
+(async()=>{try{const r=await fetch('../terms.php?view=catalogue',{credentials:'same-origin',cache:'no-store'}),d=await r.json();if(r.ok&&d.installed&&!d.legacy?.speaking){const en=d.enrollments.find(e=>e.course_id==='speaking12'&&e.status!=='unenrolled_inactive');location.replace(en?'../#class/'+en.offering_id+'/week/0/study':'../#program/speaking12');}}catch{/* The existing page can show its connection status; no offline credit is invented. */}})();

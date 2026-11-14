@@ -9,7 +9,9 @@ fixture=json.loads((ROOT/'.local/community-fixture.json').read_text())
 helper=(ROOT/'tests/community_api.py').read_text();exec(helper[helper.index('class Device:'):helper.index('guest=Device();')])
 php("academic_install();query('DELETE FROM rate_limits');query('DELETE FROM academic_drafts');query('DELETE FROM academic_submissions');query('DELETE FROM academic_college_passes');query('DELETE FROM academic_integrity_acceptance');query('DELETE FROM campus_controls');query(\"DELETE FROM assessment_attempts WHERE assessment_key LIKE 'college-%'\");")
 a=Device('alice');php("query('DELETE FROM rate_limits');");other=Device('alice');b=Device('bob');staff=Device('staff');guest=Device()
-public=guest.call('academic.php?view=college');assert len(public['course']['modules'])==4 and all('questions' not in m for m in public['course']['modules'])
+guest.call('academic.php?view=college',status=401)
+for learner in [a,b]:learner.call('academic.php',{'action':'enroll_foundation','consent':True})
+public=a.call('academic.php?view=college');assert len(public['course']['modules'])==4 and all('questions' not in m for m in public['course']['modules'])
 guest.call('academic.php?view=task&course=college&module=0',status=401)
 a.call('academic.php?view=review',status=403);a.call('academic.php',{'action':'install'},403)
 r=a.call('academic.php?view=task&course=college&module=0');assert r['available'] and r['studentNumber'].startswith('SMB-')
@@ -18,7 +20,7 @@ def doc(n):
 # 5 words in introduction (Baldwin,2020,discusses,learning =4), 4 conclusion? A,considered,plan,helps =4: total8.
 assert json.loads(php("echo json_encode(academic_words('Baldwin (2020) discusses learning. A considered plan helps.'));"))==8
 base={'course':'college','module':0,'task':'opening'}
-def save(device,document,version=0,submit=False,status=200,**extra):return device.call('academic.php',{'action':'submit' if submit else 'draft',**base,'document':document,'draftVersion':version,'original':True,'policyVersion':1,**extra},status)
+def save(device,document,version=0,submit=False,status=200,**extra):return device.call('academic.php',{'action':'submit' if submit else 'draft',**base,'document':document,'draftVersion':version,'original':True,'policyVersion':2,**extra},status)
 save(a,doc(299),submit=True,status=400);save(a,doc(300),submit=True,status=400,original=False)
 draft=save(a,doc(300))['record'];assert draft['tasks']['opening']['draft']['version']==1
 assert other.call('academic.php?view=task&course=college&module=0')['tasks']['opening']['draft']['document']['body']==doc(300)['body']
@@ -44,12 +46,14 @@ bank=json.loads((ROOT/'private/college-course.json').read_text());answers={q['id
 while attempt['status']!='submitted':
  q=attempt['question'];r=a.call('assessments.php',{'action':'answer','attemptId':attempt['id'],'version':attempt['version'],'questionId':q['id'],'value':answers[q['id']]});attempt=r['attempt']
 assert attempt['result']['passed'];assert a.call('academic.php?view=task&course=college&module=1')['available'];assert not a.call('academic.php?view=task&course=college&module=2')['available']
-assert not a.call('academic.php?view=task&course=investing&module=0')['available']
+a.call('academic.php?view=task&course=investing&module=0',status=403)
 # Finish remaining foundation through backend fixtures: objective passes do not grant subject writing acceptance.
 php("$f=json_decode(file_get_contents('.local/community-fixture.json'),true);foreach([1,2,3] as $i)query('INSERT INTO academic_college_passes (user_id,module_index,passed_at) VALUES (?,?,?)',[$f['alice']['id'],$i,gmdate('c')]);")
-assert a.call('academic.php?view=task&course=investing&module=0')['available'];assert not a.call('assessments.php?key=module-0')['eligible']
+php("require_once 'private/terms.php';terms_install();$f=json_decode(file_get_contents('.local/community-fixture.json'),true);$u=query('SELECT * FROM users WHERE id=?',[$f['alice']['id']])->fetch();term_enroll($u,'investing12',time(),['consentVersion'=>TERM_CONSENT_VERSION,'peerConsent'=>true]);")
+a.call('academic.php?view=task&course=investing&module=0',status=403) # New enrollment uses the current edition, without inventing historical access.
+assert not a.call('assessments.php?key=module-0')['eligible']
 assert a.call('community.php?view=gradebook')['grades']['academic']['collegeComplete']
 # Existing restriction middleware protects new writing endpoint.
 staff.controls('alice',read_only=True);save(a,doc(300),status=403);staff.controls('alice',read_only=False)
 base['task']='opening';save(b,doc(300),submit=True)
-print('PASS: private drafts across devices, conflicts/CSRF, word limits, integrity acknowledgment, review rubric/roles/self-review, revision and holds, sanitized public curriculum, timed College exam, foundation/module gates, gradebook and account restrictions.')
+print('PASS: private drafts across devices, conflicts/CSRF, word limits, integrity acknowledgment, review rubric/roles/self-review, revision and holds, sanitized authorized curriculum and guest denial, timed College exam, foundation/module gates, gradebook and account restrictions.')

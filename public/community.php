@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
-require dirname(__DIR__).'/private/bootstrap.php';require dirname(__DIR__).'/private/community.php';require_once dirname(__DIR__).'/private/academic.php';
+require dirname(__DIR__).'/private/bootstrap.php';require dirname(__DIR__).'/private/community.php';require_once dirname(__DIR__).'/private/academic.php';require_once dirname(__DIR__).'/private/terms.php';
 try{
  session_begin();$u=account_user();if(!$u||$u['verified_at']===null)reply(['error'=>'Sign in and verify your email to use your student campus.','csrf'=>$_SESSION['csrf'],'signedOut'=>true],401);
  $staff=campus_staff($u);$method=$_SERVER['REQUEST_METHOD'];$b=$method==='POST'?student_request_body(12000):[];if(!in_array($method,['GET','POST'],true))reply(['error'=>'Method not allowed.'],405);
  if($method==='POST'&&($b['action']??'')==='install'){if(!$staff)reply(['error'=>'Super administrator access required.'],403);campus_install();campus_audit($u,'install','campus');reply(['notice'=>'Student campus services installed.']);}
- $base=['csrf'=>$_SESSION['csrf'],'superAdmin'=>$staff,'name'=>campus_name($u),'avatarSupported'=>true,'avatarProcessor'=>function_exists('imagecreatefromstring')?'server-gd':'compact-jpeg','courses'=>CAMPUS_COURSES];
+ $base=['personId'=>$u['id'],'csrf'=>$_SESSION['csrf'],'superAdmin'=>$staff,'name'=>campus_name($u),'avatarSupported'=>true,'avatarProcessor'=>function_exists('imagecreatefromstring')?'server-gd':'compact-jpeg','courses'=>CAMPUS_COURSES];
  if(!campus_installed())reply($base+['installed'=>false,'error'=>'The student campus is awaiting administrator setup.'],503);
  $base['installed']=true;student_record($u);
  if($method==='GET'){
@@ -26,7 +26,7 @@ try{
   reply(['error'=>'Unknown campus view.'],400);
  }
  $action=$b['action']??'';limited('campus-write',120,300,$u['id']);
- if($action==='join'){$course=campus_course($b['course']??null);demand(($b['consent']??false)===true,'Agree to the course-room guidelines first.');if(!campus_member($u['id'],$course))try{query('INSERT INTO campus_enrollments (user_id,course_id,joined_at) VALUES (?,?,?)',[$u['id'],$course,gmdate('c')]);}catch(PDOException $e){if(!in_array((string)$e->getCode(),['23000','23505'],true))throw $e;}reply($base+['room'=>campus_room($u,$course)]);}
+ if($action==='join'){$course=campus_course($b['course']??null);if($course!=='college'&&!term_legacy_allowed($u,$course))reply(['error'=>'Open the discussion inside your enrolled classroom.'],403);demand(($b['consent']??false)===true,'Agree to the course-room guidelines first.');if(!campus_member($u['id'],$course))try{query('INSERT INTO campus_enrollments (user_id,course_id,joined_at) VALUES (?,?,?)',[$u['id'],$course,gmdate('c')]);}catch(PDOException $e){if(!in_array((string)$e->getCode(),['23000','23505'],true))throw $e;}reply($base+['room'=>campus_room($u,$course)]);}
  if($action==='post')reply($base+['room'=>campus_post($u,$b)]);
  if($action==='report'){$id=(string)($b['message']??'');$m=query('SELECT course_id,status FROM campus_messages WHERE id=?',[$id])->fetch();demand($m&&$m['status']==='approved'&&campus_member($u['id'],$m['course_id']),'This message is unavailable.');limited('campus-report',5,86400,$u['id']);try{query('INSERT INTO campus_reports (message_id,user_id,created_at) VALUES (?,?,?)',[$id,$u['id'],gmdate('c')]);}catch(PDOException $e){if(!in_array((string)$e->getCode(),['23000','23505'],true))throw $e;}reply(['notice'=>'Reported privately to the super administrator.']);}
  if($action==='remove_avatar'){query('DELETE FROM campus_avatars WHERE user_id=?',[$u['id']]);reply(['notice'=>'Profile picture removed.']);}

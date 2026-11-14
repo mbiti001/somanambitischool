@@ -109,17 +109,17 @@ function initLearningViewer() {
       if(source.alternative&&course.sources[source.alternative]){
         const alternative=course.sources[source.alternative],panel=node('section',undefined,'viewer-study');
         panel.append(node('h3',source.format==='pdf'?'Read an HTML alternative':'If the publisher page is unavailable'),node('p','A separate, credited resource covering related concepts: '+Study.citation(alternative)),node('p',alternative.access+' · '+alternative.license,'viewer-attribution'),node('p',alternative.assignment||'Read the linked page.','reading-assignment'));
-        const link=node('a','Read '+alternative.title+' here →','primary');link.href=alternative.url;link.target='_blank';link.rel='noopener noreferrer';panel.append(link);body.append(panel);
+        const link=node('a','Read '+alternative.title+' here ☞','primary');link.href=alternative.url;link.target='_blank';link.rel='noopener noreferrer';panel.append(link);body.append(panel);
       }
     }
     const actions = node('div',undefined,'viewer-actions');
-    const back = node('button',originLesson ? 'Back to your class →' : related ? 'Read the related class →' : 'Keep learning →','primary');
+    const back = node('button',originLesson ? 'Back to your class ☞' : related ? 'Read the related class ☞' : 'Keep learning ☞','primary');
     back.type = 'button';
     back.onclick = () => {
       viewer.close();
       if (!originLesson && related) openLesson(related.id);
     };
-    const original = node('a',media ? 'Open on YouTube ↗' : source.format==='pdf' ? 'Open publisher PDF ↗' : 'Open official source ↗','viewer-original');
+    const original = node('a',media ? 'Open on YouTube ☞' : source.format==='pdf' ? 'Open publisher PDF ☞' : 'Open official source ☞','viewer-original');
     original.href = anchor.href;
     original.target = '_blank';
     original.rel = 'noopener noreferrer';

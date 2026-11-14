@@ -489,3 +489,42 @@ Checks: node tests/reading_assignments.mjs, viewer.mjs, speaking.mjs, learning.m
 guide_feedback.mjs, campus.mjs, student_privacy.mjs and php tests/assessments.php.
 Book reading was visually verified inside the 390px classroom reader. No quiz IDs,
 questions, correct choices or saved progress identifiers changed in this finish.
+
+ACADEMY RELEASE 31 — SELF-PACED STANDARD COURSES
+Four standard courses have ten teaching modules, with twelve weeks as a recommended study plan. Enrolled readings, videos and private practice open immediately; assessed mastery remains sequential. Each module test has ten true/false questions and requires100%. Mid-course afterModule6; final25questions (15single-answer plus10sets of4independent true/false statements),55marks,47needed. Timers2minutes/question; module/midfivefailed attempts, finaltwo; then7days.
+
+Verified College Success enrollment is explicit. Standard courses require completion of that short foundation and consent to peer sharing. Six places per Monday administrative intake. Only nonstarters expire84days after their own enrollment; meaningful saved work counts participation. Active learners continue at their pace.
+
+Upload public/ into public_html/, private/ and database/ as siblings OUTSIDE public_html. Preserve ALL actual *-config.php and private/config.php. Never upload tests, .local, actual passwords, student records, or the source ZIP under public_html. Protected teaching/answers live in private/*course*.json and private/legacy-speaking-view.html; the public retired static files and .htaccess must also be replaced to remove old public material copies. The full source ZIP is PRIVATE and includes answer banks.
+
+Owner: sign in with the existing verified super-admin account and open Teacher portal/course office; choose Enable standard courses once. The owner-only installer creates tables matching the users table collation, records its audit event and preserves historical progress. Do not invent enrollments or grades.
+
+Rolling peers pair eligible submitted papers in the same class/module/task. No self-review. Thursday08:00 Nairobi service routes solo papers to professor fallback; a professor may document an earlier fallback. Professor acceptance is required and all corrections audited.
+
+Schedule private/cron-course-terms.php with PHP8.1+ CLI every5minutes when Safaricom exposes Cron Jobs. Until configured, authenticated visits process due work lazily; exact unattended Thursday execution is NOT guaranteed. Last CLI heartbeat is separate from lazy visits. No public cron URL.
+
+Server-enforced1hour inactivity, plus8hour absolute sign-in cap. Only genuine visible keyboard/pointer/scroll activity sends a throttled activity renewal. Background polling/media never renew. Two-minute warning attempts pending saves; expiry/logout clears private content and returns home. Remembered browsers still require password sign-in.
+
+Classic Times typography, subject artwork, credited publisher cover thumbnails and external lesson-author portrait. All course photographs are real licensed photographs with visible source and licence credits. See public/book-covers/ATTRIBUTION.txt. No publisher or external-author endorsement implied.
+
+Release checked on localhost8799 with disposable development records; capacity races, role boundaries, drafting conflicts, subject-scoped material access, retakes, routing and fast-clock session expiry pass. Real browser phone/desktop QA uses responsive viewports, not physical handsets. Preserve database backup and rollback source before enabling.
+
+ACADEMY RELEASE 42 — READING ROOM, SIX SUBJECTS, PRIVATE REVIEW AND PRESENCE
+Adds World Literature (LIT201) and Writing as Art in the Era of AI (WRI201), each ten modules, 100 module questions, twenty original written tasks and the same mid/final assessment policies. College Success remains the short foundation. No student grades or existing question identifiers are reset.
+
+Course guides are paged reading rooms with a page index, assigned passages, bounded videos where applicable, notes and assessment links. Course libraries include assigned primary/OER sources and four original school study papers, each with references. Protected course sources and study papers remain outside public_html and outside the public Git repository.
+
+All decorative photographic artwork is now real licensed photography with author/source/licence links in public/image-credits.json and on the page. Publisher textbook covers retain their attribution.
+
+The existing verified owner can open #review/course-id/0 from the course office. It bypasses student prerequisites only for private curriculum review, does not award progress or create assessment attempts, and saves versioned page suggestions. The first owner review runs CSRF-protected schema setup for review notes and presence. Other users cannot enable or use this review mode.
+
+Online dots display only boolean recent activity for an authorised classmate, assigned teacher, owner or self. Visible-tab leases last at most150seconds, expire with authentication, and never renew inactivity. No public presence directory, device information or last-seen timestamps. Profile/chat/register badges have accessible Online/Offline labels.
+
+Validated with isolated localhost role/access, source bank, cross-session drafting, six-seat race, retake, review/audit, presence/expiry, asynchronous privacy and browser syntax checks. Responsive browser views are not physical-device tests. Cron remains a separate hosting limitation described above.
+
+RELEASE42 LIVE VERIFICATION — 14 NOVEMBER 2026 (NAIROBI)
+Published the prepared102-file patch through Safaricom cPanel File Manager. A pre-release rollback archive was created in hosting HOME outside public_html, and both rollback and source ZIP were set0600. Actual hosting configuration was preserved. Existing verified owner loaded private review and completed the CSRF-protected review/presence schema setup; no new role grant was made.
+
+Live responsive browser checks: all six course outlines/themes; all twenty modules and both25-question final review papers for the two new subjects; all seven protected libraries; internal OpenStax chapter loading and original cover; publisher PDF fallback with assigned pagination; actual embedded TED-Ed playback; private owner suggestions saved across views then restored; College Success draft saved from desktop to phone-sized view then restored; green profile presence at390px and1440px. No new exam attempts, grades, submitted papers or student enrollments were created. Anonymous library and owner-review access were denied. Phone/desktop means responsive browser viewports, not separate physical devices; independent-client persistence, retake, capacity and role-boundary tests remain isolated local checks.
+
+Release is live at https://somanambiti.com. The owner can use Review every course page from a subject overview, or #review/world-literature/0. Exact unattended Thursday peer routing still requires hosting Cron Jobs.
